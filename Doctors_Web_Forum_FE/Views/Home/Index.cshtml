@@ -1,11 +1,150 @@
 ﻿@{
     ViewData["Title"] = "Health Talk";
 }
-<div class="text-center">
-    <img class="img-fluid shadow-soft mb-5"
-         src="..\assets\svg\layouts\sidebar-detached-overlay-fluid.svg" alt="Image Description"
-         style="max-width: 15rem;">
+<div class="content container">
+    <div class="page-header page-header-light page-header-reset" style="margin-bottom:0;">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="page-header-title" style="color:black;">Top Questions</h1>
+            </div>
+            <div class="col-auto">
+                <a class="btn btn-primary" data-toggle="modal" data-target="#addEventToCalendarModal">Ask Question</a>
+            </div>
+        </div>
 
-    <h1>Detached Sidebar Overlay (Container)</h1>
-    <p>Customize your overview page layout. Choose the one that best fits your needs.</p>
+        <div class="row align-items-center mt-4">
+            <div class="col-auto">
+                <a class="btn btn-primary" data-toggle="modal" data-target="#addEventToCalendarModal">Ask Question</a>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="container mb-5">
+    <div class="card p-3" style="box-shadow: 5px 6px 6px 2px #e9ecef; overflow:auto;">
+        <div class=" d-flex questions">
+            <div class="pt-2 mr-3  text-answer " style=" width:19%; text-align: end; ">
+
+                <div>
+                    <span>100</span>
+                    <span>answers</span>
+                </div>
+
+            </div>
+            <div class="">
+                <h3>
+                    <a href="#" style="color: #0074cc;text-decoration: none;">
+                        VBA formula
+                        referencing a changing sheet name
+                    </a>
+                </h3>
+                <div>
+                    I am new to VBA and am trying to create a code that uses the formula which references a sheet.
+                    However,
+                    the sheet name changes every month. What functions should I be using to reference the sheet?
+                    I ...
+                </div>
+                <div class="d-flex mt-1" style=" justify-content: space-between; flex-wrap: wrap; column-gap: 6px; row-gap: 8px;">
+                    <div>
+
+                        <ul class="d-flex pl-0 s-user-card--awards">
+                            <li><a class="badge badge-soft-info p-2" href="#">Marketing team</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="d-flex">
+                        <div>
+                            <a href="/users/20883704/shura">
+                                <div>
+                                    <img src="https://www.gravatar.com/avatar/15d975ef8d79a133e095c9fc7e4cafc7?s=32&amp;d=identicon&amp;r=PG"
+                                         alt="Shura's user avatar" width="16" ,="" height="16"
+                                         class="s-avatar--image">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="d-flex mr-2">
+                            <div>
+                                <a href="/users/20883704/shura">Shura</a>
+                            </div>
+                        </div>
+                        <time class="s-user-card--time">
+                            <span class="relativetime">
+                                asked  1 min
+                                ago
+                            </span>
+                        </time>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="addEventToCalendarModal" tabindex="-1" data-select2-id="addEventToCalendarModal" style="display: none; padding-left:0;" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" data-select2-id="21" style="max-width:1100px;">
+        <div class="modal-content" data-select2-id="20">
+            <form class="modal-content">
+                <div class="modal-header">
+                    <h2 id="inviteUserModalTitle" class="modal-title">Ask a public question</h2>
+
+                    <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+                        <i class="tio-clear tio-lg"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="js-form-message form-group">
+                            <h4 class="input-label" for="resetPasswordSrEmail" style="margin-bottom:0;" tabindex="0">Title</h4>
+                            <small>Be specific and imagine you’re asking a question to another person.</small>
+                            <input type="text" class="form-control form-control-lg" name="email" id="resetPasswordSrEmail" tabindex="1" aria-label="email@address.com" required="" data-msg="Please enter a valid email address.">
+                        </div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <h5 class="col modal-title">What are the details of your question?</h5>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="quill-custom">
+                            <div class="js-quill" style="min-height: 15rem;"
+                                 data-hs-quill-options='{
+                               "placeholder": "Type your message...",
+                                "modules": {
+                                  "toolbar": [
+                                    ["bold", "italic", "underline", "strike", "link", "image", "blockquote", "code", {"list": "bullet"}]
+                                  ]
+                                }
+                               }'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="formControlPilledGenderSelect" class="input-label">Gender</label>
+                            <select id="formControlPilledGenderSelect" class="custom-select custom-select-pill">
+                                <option>Choose a gender</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="reset" id="discardFormt" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                <button type="button" id="processEvent" class="btn btn-primary">Post Your Question</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+
+    <script>
+        $(document).on('ready', function () {
+            var quill = $.HSCore.components.HSQuill.init('.js-quill');
+        });
+    </script>
+}
+

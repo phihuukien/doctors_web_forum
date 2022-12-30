@@ -1,0 +1,64 @@
+﻿
+.s-user-card--awards {
+   list-style: none !important;
+}
+@media only screen and (max-width: 1400px) {
+    .questions {
+        flex-direction: column;
+    }
+
+    .text-answer {
+        width: 100% !important;
+        text-align: inherit !important;
+    }
+}
+@media screen and (max-width: 1024px) {
+    .questions {
+        flex-direction: column;
+    }
+
+    .text-answer {
+        width: 100% !important;
+        text-align: inherit !important;
+    }
+}
+@media screen and (max-width: 768px) {
+    .questions {
+        flex-direction: column;
+    }
+
+    .text-answer {
+        width: 100% !important;
+        text-align: inherit !important;
+    }
+}
+@media screen and (max-width: 480px) {
+    .questions {
+        flex-direction: column;
+    }
+
+    .text-answer {
+        width: 100% !important;
+        text-align: inherit !important;
+    }
+}
+@media screen and (max-width: 320px) {
+    .questions {
+        flex-direction: column;
+    }
+
+    .text-answer {
+        width: 100% !important;
+        text-align: inherit !important;
+    }
+}
+@media screen and (max-width: 240px) {
+    .questions {
+        flex-direction: column;
+    }
+
+    .text-answer {
+        width: 100% !important;
+        text-align: inherit !important;
+    }
+}

@@ -6,18 +6,11 @@ using System.Threading.Tasks;
 
 namespace Doctors_Web_Forum_FE.Controllers
 {
-    [Route("question")]
-    public class QuestionController : Controller
+    public class AccountController : Controller
     {
-        [Route("")]
         public IActionResult Index()
         {
-            return View("Question");
-        }
-        [Route("detail")]
-        public IActionResult QuestionDetail()
-        {
-            return View();
+            return View("Login");
         }
     }
 }
