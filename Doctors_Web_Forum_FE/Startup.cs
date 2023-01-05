@@ -1,4 +1,6 @@
 ﻿using Doctors_Web_Forum_FE.BusinessModels;
+using Doctors_Web_Forum_FE.Models;
+using Doctors_Web_Forum_FE.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,8 +35,8 @@ namespace Doctors_Web_Forum_FE
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IEmailService, Services.EmailService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
