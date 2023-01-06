@@ -1,168 +1,212 @@
-﻿
+﻿@model IEnumerable<Doctors_Web_Forum_FE.Models.Comment>
 @{
     ViewData["Title"] = "QuestionDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
+    var question = ViewData["Question"] as Doctors_Web_Forum_FE.Models.Question;
 
+}
+<style>
+    .editorReply {
+        min-height: 100px;
+    }
+    .mystyle {
+        display: block !important;
+     
+    }
+</style>
 <div class="content container pb-0">
     <div class="page-header page-header-light page-header-reset" style="margin-bottom:0;">
         <div class="row " style="align-items:baseline;">
             <div class="col d-flex">
                 <div>
-                    <img style="width:40px; border-radius:100px;" src="..\assets\svg\logos\logo.png" alt="Logo">
+                    <img style="width:40px; border-radius:100px;" src="  @question.Account.Avatar" alt="Logo">
                 </div>
                 <div class="d-flex ml-3" style="flex-direction:column;">
-                    <span class="">Asked today</span>
-                    <span class="">Asked today</span>
+                    <span style="color: black; font-weight: 900; font-family: system-ui;"> @question.Account.DisplayName</span>
+                    @if (ViewBag.selecTime != "No")
+                    {
+                        <span>@ViewBag.selecTime</span>
+                    }
+                    else
+                    {
+                        <span>@question.CreateDate</span>
+                        @*<span>@String.Format("{0:dd/MM/yyyy}", @question.CreateDate)</span>*@
+                    }
+
                 </div>
             </div>
             <div class="col-auto">
-                <a class="btn btn-primary" data-toggle="modal" data-target="#addEventToCalendarModal">Ask Question</a>
+                <a class="btn btn-primary" data-toggle="modal" data-target="#addEventToCalendarModal"> Ask Question</a>
 
             </div>
         </div>
     </div>
 </div>
 <div class="container pt-3 shadow-lg">
-    <p class="page-header-title" style="color: black; font-size: 1.19rem;">Update PostgreSQL database if current date/time minus date/time value is greater than 1 hour TUpdate PostgreSQL database if current date/time minus date/time value is greater than 1 hour</p>
+    <p class="page-header-title" style="color: black; font-size: 1.19rem;">
+        @question.Title
+    </p>
 
     <p>
-        I am working on a Laravel project with PhpMyAdmin and I am quite new to Laravel, I have created tables with models, and already migrated them, now I need to add new columns but when I add the columns and then migrate it shows that noting there to be migrated
-
-        Also same thin for the relationships, I applied 1-1 between 2 tables and migrated, but the database is not updated, and from time to time I got an error of duplicating session table as well, how to solve this?
-
-        Students table
+        @Html.Raw(question.Detail)
     </p>
 </div>
 <div class="container pt-3">
     <div>
-        <h3>4 Answers</h3>
+        <h3>@ViewData["numberOfAnswers"] Answers</h3>
     </div>
-    <div class=" row border-top">
-        <div class="d-flex  col-md-12">
-            <div class="pt-3">
-                <img style="width:40px; border-radius:100px;" src="..\assets\svg\logos\logo.png" alt="Logo">
-            </div>
-            <div class="coment-bottom bg-white p-1 px-2">
-                <div class="commented-section mt-2">
-                    <div class="shadow-lg p-3 bg-white  " style="border-radius:20px;">
-                        <div class="d-flex flex-row align-items-center commented-user">
-                            <h5 class="mr-2">Samoya Johns</h5>
-                        </div>
-                        <div class="comment-text-sm">
-                            <p style="color:black">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                do eiusmod tempor incididunt ut labore et dolore magna aliqua..
-                            </p>
-                        </div>
+    @foreach (var item in Model)
+    {
+
+        @if (item.Reply == 0)
+        {
+
+            <div class=" row border-top">
+                <div class="d-flex  col-md-12">
+
+                    <div class="pt-3">
+                        <img style="width:40px; border-radius:100px;" src="@Html.DisplayFor(modelItem => item.Account.Avatar)" alt="Logo">
                     </div>
-                    <div class="reply-section">
-                        <div class="d-flex flex-row align-items-center voting-icons">
-                            <h6 class="ml-2 mt-1">Reply</h6>
-                            <h6 class="ml-2 mt-1">Reply</h6>
-                            <span class="mb-1 ml-4">
-                                Answered 5
-                                hours ago
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                @*------------  reply   -------------*@
-                <div class=" row ">
-                    <div class="d-flex  col-md-12">
-                        <div class="pt-3">
-                            <img style="width:40px; border-radius:100px;" src="..\assets\svg\logos\logo.png" alt="Logo">
-                        </div>
-                        <div class="coment-bottom bg-white p-1 px-2">
-                            <div class="commented-section mt-2">
-                                <div class="shadow-lg p-3 bg-white  " style="border-radius:20px;">
-                                    <div class="d-flex flex-row align-items-center commented-user">
-                                        <h5 class="mr-2">Samoya Johns</h5>
-                                    </div>
-                                    <div class="comment-text-sm">
-                                        <p style="color:black">
-                                            <span style="font-weight: 900; font-family: sans-serif; ">Samoya Johns</span>  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                            do eiusmod tempor incididunt ut labore et dolore magna aliqua..
-                                        </p>
-                                    </div>
+                    <div class="coment-bottom bg-white p-1 px-2" style="width:100%;">
+                        <div class="commented-section mt-2">
+                            <div class="shadow-lg p-3 bg-white  " style="border-radius:20px;width:fit-content;">
+                                <div class="d-flex flex-row align-items-center commented-user">
+                                    <h5 class="mr-2" style="font-weight: 700; font-family: sans-serif;">@Html.DisplayFor(modelItem => item.Account.DisplayName)</h5>
                                 </div>
-                                <div class="reply-section">
-                                    <div class="d-flex flex-row align-items-center voting-icons">
-                                        <h6 class="ml-2 mt-1">Reply</h6>
-                                        <span class="mb-1 ml-4">
-                                            Answered 5
-                                            hours ago
-                                        </span>
-                                    </div>
+                                <div class="comment-text-sm">
+                                 
+                                        @Html.Raw(item.Content)
+                                   
                                 </div>
                             </div>
+                            <div class="reply-section">
+                                <div class="d-flex flex-row align-items-center voting-icons">
+                                    <h6 class="ml-2 mt-1 " style="cursor: pointer;"  onclick="reply('reply-@item.CommentId','@item.Account.DisplayName','@item.CommentId');">Reply</h6>
+                                    <span class="mb-1 ml-4">
+                                        Answered @item.CreateDate
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
 
+                        @*------------  reply   -------------*@
+                        @foreach (var item_2 in Model)
+                        {
+                            @if (item_2.Reply != 0 && item.CommentId == item_2.Reply)
+                            {
+
+                                <div class=" row ">
+                                    <div class="d-flex  col-md-12">
+                                        <div class="pt-3">
+                                            <img style="width:30px; border-radius:100px;" src="@Html.DisplayFor(modelItem => item_2.Account.Avatar)" alt="Logo">
+                                        </div>
+                                        <div class="coment-bottom bg-white p-1 px-2">
+                                            <div class="commented-section mt-2">
+                                                <div class="shadow-lg p-3 bg-white  " style="border-radius:20px;">
+                                                    <div class="d-flex flex-row align-items-center commented-user">
+                                                        <h5 class="mr-2">@Html.DisplayFor(modelItem => item_2.Account.DisplayName)</h5>
+                                                    </div>
+                                                    <div class="comment-text-sm">
+                                                        <p style="color:black">
+                                                          
+                                                            @item_2.Content
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="reply-section">
+                                                    <div class="d-flex flex-row align-items-center voting-icons">
+                                                        <h6 class="ml-2 mt-1" style="cursor: pointer;"  onclick="reply('reply-@item.CommentId','@item_2.Account.DisplayName','@item.CommentId');">Reply</h6>
+                                                        <span class="mb-1 ml-4">
+                                                            Answered @item_2.CreateDate
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        }
+                        @*------------ end reply   -------------*@
+                        <div class="row mb-2 " id="reply-@item.CommentId" style="display:none;" >
+                            <div class="d-flex" style="justify-content:space-between;">
+                                <div class="pl-2">  <img style="width:30px; border-radius:100px;" src="@User.Claims.Skip(3).FirstOrDefault().Value" alt="Logo"></div>
+                                <textarea  class="form-control" style="border-radius:10px; width:88%; text-align:left;" id="content-comment-@item.CommentId">
+                                    </textarea>
+                                <div style="color: #529ab6; padding: 15px 15px 0 0; font-size: 26px;"><i class="fas fa-paper-plane" onclick="postReply('@question.QuestionId', '@item.CommentId')"></i></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                @*------------ end reply   -------------*@
             </div>
-        </div>
-    </div>
-    <div class=" row border-top">
-        <div class="d-flex  col-md-12">
-            <div class="pt-3">
-                <img style="width:40px; border-radius:100px;" src="..\assets\svg\logos\logo.png" alt="Logo">
-            </div>
-            <div class="coment-bottom bg-white p-1 px-2">
-                <div class="commented-section mt-2">
-                    <div class="shadow-lg p-3 bg-white  " style="border-radius:20px;">
-                        <div class="d-flex flex-row align-items-center commented-user">
-                            <h5 class="mr-2">Samoya Johns</h5>
-                        </div>
-                        <div class="comment-text-sm">
-                            <p style="color:black">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                do eiusmod tempor incididunt ut labore et dolore magna aliqua..
-                            </p>
-                        </div>
-                    </div>
-                    <div class="reply-section">
-                        <div class="d-flex flex-row align-items-center voting-icons">
-                            <h6 class="ml-2 mt-1">Reply</h6>
-                            <span class="mb-1 ml-4">
-                                Answered 5
-                                hours ago
-                            </span>
-                        </div>
-                    </div>
-                </div>
+        }
+    }
 
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="container">
-    <div style=" border-top: 1px solid #7b747c61; "> <h3 class="mt-3">Your Answer</h3> </div>
-    <div class="quill-custom">
-        <div class="js-quill" style="min-height: 15rem;"
-             data-hs-quill-options='{
-                               "placeholder": "Type your message...",
-                                "modules": {
-                                  "toolbar": [
-                                    ["bold", "italic", "underline", "strike", "link", "image", "blockquote", "code", {"list": "bullet"}]
-                                  ]
-                                }
-                               }'>
-        </div>
-    </div>
+    <div style=" border-top: 1px solid #7b747c61; "> <h3 class="mt-3" id="">Your Answer</h3> </div>
+    <textarea id="editorAnswer" name="editorAnswer">
+                            </textarea>
     <div class=" mt-4">
-        <a class="btn btn-primary" data-toggle="modal" data-target="#addEventToCalendarModal">Post Your Answer</a>
+        <a class="btn btn-primary" onclick="postComment('@question.QuestionId')">Post Your Answer</a>
     </div>
 </div>
+
 @section Scripts{
-
-
     <script>
-        $(document).on('ready', function () {
-            var quill = $.HSCore.components.HSQuill.init('.js-quill');
-        });
+      
+        function reply(commentId, name, id) {
+            var element = document.getElementById(commentId);
+            element.classList.toggle("mystyle");
+            document.getElementById("content-comment-" + id).value = name.toUpperCase();
+
+        };
+    </script>
+    <script src="~/assets/js/question/ckeditorAnswer.js"></script>
+    <script>
+
+        function postReply(questionId, commentId) {
+            var content = $('#content-comment-' + commentId).val();
+            var formData = new FormData();
+            formData.append("questionId", questionId);
+            formData.append("reply", commentId);
+            formData.append("Content",content);
+            $.ajax({
+                url: "http://localhost:18039/question/post-Comment",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    window.location.reload();
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        }
+        function postComment(id) {
+            var formData = new FormData();
+            formData.append("questionId", id);
+            formData.append("reply", 0);
+            formData.append("Content", editorAnswer.getData());
+            $.ajax({
+                url: "http://localhost:18039/question/post-Comment",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    window.location.reload();
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        }
     </script>
 }
 

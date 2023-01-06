@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Doctors_Web_Forum_FE.Models.Account>
+@{
+    ViewData["Title"] = "Doctors";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-3">
+    <div class="page-header page-header-light page-header-reset" style="margin-bottom:0;">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="page-header-title" style="color:black;">Doctors</h1>
+            </div>
+        </div>
+
+        <div class="row align-items-center mt-4">
+            <div class="col">
+              
+                    <div class="input-group input-group-merge" >
+                        <input type="text" class="js-form-search form-control" placeholder="Search..."
+                               data-hs-form-search-options='{
+             "clearIcon": "#clearIconBasicEg"
+           }'>
+                        <a class="input-group-append" href="javascript:;">
+                            <span class="input-group-text">
+                                <i id="clearIconBasicEg" class="tio-clear tio-lg" style="display: none;"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+            <div class="col">
+                <select class="custom-select">
+                    <option selected="">Specialization</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="custom-select">
+                    <option selected="">Qualification</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3">
+        @foreach (var item in Model)
+        {
+            <div class="col mb-3 mb-lg-5">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="avatar avatar-xl avatar-soft-primary avatar-circle avatar-border-lg avatar-centered mb-3">
+                            <span class="avatar-initials"> <img src="@item.Avatar" style="overflow: auto; border-radius: 100px;" /> </span>
+                            @if (item.Status == 3)
+                            {
+                                <span class="avatar-status avatar-sm-status avatar-status-success"></span>
+                            }
+                            else
+                            {
+                                <span class="avatar-status avatar-sm-status avatar-status-dark"></span>
+                            }
+
+                        </div>
+                        <h3 class="mb-1">
+                            <a class="text-dark" href="#">@item.DisplayName</a>
+                        </h3>
+                        <div class="mb-3">
+                            <i class="tio-city mr-1"></i>
+                            <span>Design</span>
+                        </div>
+                        <ul class="list-inline list-inline-m-1 mb-0">
+                            <li class="list-inline-item"><a class="badge badge-soft-secondary p-2" href="#">UI/UX</a></li>
+                            <li class="list-inline-item"><a class="badge badge-soft-secondary p-2" href="#">Sketch</a></li>
+                            <li class="list-inline-item"><a class="badge badge-soft-secondary p-2" href="#">Figma</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
