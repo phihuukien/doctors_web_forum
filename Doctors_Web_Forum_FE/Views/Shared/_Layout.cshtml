@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -7,21 +8,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="..\assets\svg\logos\logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets\css\vendor.min.css">
     <link rel="stylesheet" href="assets\vendor\icon-set\style.css">
     <link rel="stylesheet" href="assets\css\theme.min.css?v=1.0">
-    <link href="assets\summernote\summernote-bs4.min.css" rel="stylesheet" />
-    <link href="assets\summernote\summernote.min.css" rel="stylesheet" />
     <link href="~/assets/css/listQuestion.css" rel="stylesheet" />
-  
+    <style>
+
+
+        .ck-editor__editable[role="textbox"] {
+            min-height: 150px;
+        }
+    </style>
 </head>
 <body>
     <partial name="header" />
     <main id="content" role="main" class="main" style="padding-top: 3.75rem;">
         <div class="bg-dark">
             <div class="content container" style="height: 20rem;">
-              
+
             </div>
         </div>
         <div class="content container" style="margin-top: -20rem;">
@@ -42,16 +48,66 @@
     </main>
 
 
+    <div class="modal fade" id="addEventToCalendarModal" tabindex="-1" data-select2-id="addEventToCalendarModal" style="display: none; padding-left:0;" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" data-select2-id="21" style="max-width:1100px;">
+            <div class="modal-content" data-select2-id="20">
+                <form class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="inviteUserModalTitle" class="modal-title">Ask a public question</h2>
 
+                        <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+                            <i class="tio-clear tio-lg"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="js-form-message form-group">
+                                <h4 class="input-label" for="resetPasswordSrEmail" style="margin-bottom:0;" tabindex="0">Title</h4>
+                                <small>Be specific and imagine you’re asking a question to another person.</small>
+                                <input type="text" class="form-control form-control-lg" id="title" tabindex="1" aria-label="email@address.com" required="" data-msg="Please enter a valid email address.">
+                            </div>
+                        </div>
+                        <div class="form-row mb-1">
+                            <h5 class="col modal-title">What are the details of your question?</h5>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea id="editor" name="editor">
+                            </textarea>
+                            <hr />
+                            <div style="width:50%;">
+                                <label for="TopicId" class="input-label">Toppic</label>
+                                <select id="topicId" class="custom-select custom-select-pill">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="reset" id="discardFormt" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="processEvent" class="btn btn-primary btn-post-question">Post Your Question</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.3.slim.js"
+            integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc="
+            crossorigin="anonymous"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="assets\js\vendor.min.js"></script>
     <script src="assets\vendor\chart.js\dist\Chart.min.js"></script>
     <script src="assets\vendor\chart.js.extensions\chartjs-extensions.js"></script>
     <script src="assets\vendor\chartjs-plugin-datalabels\dist\chartjs-plugin-datalabels.min.js"></script>
     <script src="assets\js\theme.min.js"></script>
-    <script src="assets\summernote\summernote.min.js"></script>
-    <script src="assets\summernote\summernote-bs4.min.js"></script>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/super-build/ckeditor.js"></script>
     <script>
         $(document).on('ready', function () {
+            $.get("http://localhost:18039/question/get-topic", function (data) {
+                $.each(data, function (index, c) {
+                    $('#topicId').append('<option value="' + c.topicId + '">' + c.topicName + '</option>');
+                });
+            });
             var sidebar = $('.js-navbar-vertical-aside').hsSideNav();
             $('.js-hs-unfold-invoker').each(function () {
                 var unfold = new HSUnfold($(this)).init();
@@ -59,8 +115,12 @@
             $('.js-form-search').each(function () {
                 new HSFormSearch($(this)).init()
             });
+
         });
     </script>
+    <script src="~/assets/js/ckeditor5.js"></script>
+    <script src="/assets/js/question/question.js"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

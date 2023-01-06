@@ -1,4 +1,5 @@
 ﻿using Doctors_Web_Forum_FE.BusinessModels;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,7 @@ namespace Doctors_Web_Forum_FE
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -33,8 +36,28 @@ namespace Doctors_Web_Forum_FE
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie(options =>
+               {
+                
+                   options.ExpireTimeSpan = TimeSpan.FromDays(60);
+                   options.LoginPath = new PathString("/login");
+                   options.ReturnUrlParameter = "urlRedirect";
+                   options.Cookie.Path = "/";
+                   options.Cookie.SameSite = SameSiteMode.Lax;
+                   options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                   options.Cookie.IsEssential = true;
+                   options.SlidingExpiration = true;
+                   options.Cookie.HttpOnly = true;
+                   options.Cookie.Name = "SSID";
+               });
+            services.AddDistributedMemoryCache();
+            services.AddSession(option =>
+            {
+                option.Cookie.Name = "isAction";
+                option.Cookie.Name = "registed";
+            });
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -49,10 +72,12 @@ namespace Doctors_Web_Forum_FE
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+           
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
+            app.UseAuthentication();
+        
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -66,6 +91,7 @@ namespace Doctors_Web_Forum_FE
                   template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
             });
+          
         }
     }
 }
