@@ -9,6 +9,7 @@ namespace Doctors_Web_Forum_FE.Util
 {
     public class Utility
     {
+        //password encryption
         public static string MD5Hash(string input)
         {
             StringBuilder hash = new StringBuilder();

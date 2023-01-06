@@ -14,16 +14,20 @@ namespace Doctors_Web_Forum_FE.Models
         [Key]
         public int AccountId { get; set; }
 
-        [StringLength(100)]
-        [Required(ErrorMessage ="Cannot be empty")]
+        [StringLength(50, MinimumLength = 6 ,ErrorMessage = "Display name must be between 6 and 50 characters")]
+        
+        [Required(ErrorMessage = "DisplayName cannot be empty")]
         public string DisplayName { get; set; }
 
         [StringLength(200)]
-        [Required(ErrorMessage = "Cannot be empty")]
+        [DataType(DataType.EmailAddress)]
+        [Required(ErrorMessage = "Email cannot be empty")]
         public string Email { get; set; }
 
-        [StringLength(50)]
-        [Required(ErrorMessage = "Cannot be empty")]
+        [StringLength(50, MinimumLength = 6, ErrorMessage = "Password must be between 8 and 15 characters")]
+        [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9]))(?=.*[#$^+=!*()@%&]).{8,}$", ErrorMessage = "Passwords must be at least 8 characters and 1/(A-Z), 1/(a-z), number (0-9) and special character (e.g. !@#$%^&*)")]
+        
+        [Required(ErrorMessage = "Password cannot be empty")]
         public string Password { get; set; }
 
         [StringLength(1000)]
@@ -47,6 +51,9 @@ namespace Doctors_Web_Forum_FE.Models
 
         [StringLength(200)]
         public string Position { get; set; }
+
+        [StringLength(200)]
+        public string Token { get; set; }
 
         [Column(TypeName = "ntext")]
         public string Experience { get; set; }

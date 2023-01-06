@@ -2,27 +2,30 @@
 using Doctors_Web_Forum_FE.Util;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Doctors_Web_Forum_FE.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Doctors_Web_Forum_FE.Services;
 
 namespace Doctors_Web_Forum_FE.Controllers
 {
+
     [Route("login")]
     public class LoginController : Controller
     {
         private readonly DatabaseContext _context;
-
-        public LoginController(DatabaseContext context)
+        private readonly IEmailService mailService;
+        public LoginController(DatabaseContext context, IEmailService mailService)
         {
             _context = context;
+            this.mailService = mailService;
         }
 
-        [Route("",Name = "LogIn")]
-        public IActionResult Index(string urlRedirect)
+        [Route("", Name = "LogIn")]
+        public IActionResult Login(string urlRedirect)
         {
             ViewBag.urlRedirect = urlRedirect;
             return View("Login");
@@ -31,23 +34,21 @@ namespace Doctors_Web_Forum_FE.Controllers
         // login authentication
         [Route("authentication")]
         [HttpPost]
-        public async Task<IActionResult> Login(string Email, string Password,string UrlRedirect)
+        public async Task<IActionResult> LoginAuthen(string Email, string Password, string UrlRedirect)
         {
             if (null == Email || null == Password)
             {
                 TempData["error"] = "UserName or Password Empty";
-                return Redirect("~/login" );
+                return Redirect("~/login");
             }
-           
             var md5pass = Utility.MD5Hash(Password);
             var account = _context.Accounts.FirstOrDefault(x => x.Email == Email && x.Password == md5pass);
-            if (account != null  )
+            if (account != null)
             {
                 if (account.Status == 1 || account.Status == 3)
                 {
                     string id = account.AccountId.ToString();
-                    var identity = new ClaimsIdentity(new[]
-                   {
+                    var identity = new ClaimsIdentity(new[]  {
                       new Claim(ClaimTypes.Email ,account.Email),
                       new Claim(ClaimTypes.NameIdentifier ,account.DisplayName),
                       new Claim(ClaimTypes.Role,account.Role),
@@ -57,7 +58,6 @@ namespace Doctors_Web_Forum_FE.Controllers
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                     UrlRedirect = string.IsNullOrEmpty(UrlRedirect) ? "/" : UrlRedirect;
-
                     account.Status = 3;
                     _context.Accounts.Update(account);
                     await _context.SaveChangesAsync();
@@ -68,7 +68,6 @@ namespace Doctors_Web_Forum_FE.Controllers
                     TempData["error"] = "Account has not been activated";
                     return Redirect("~/login");
                 }
-
             }
             else
             {
@@ -77,10 +76,61 @@ namespace Doctors_Web_Forum_FE.Controllers
                 TempData["error"] = "Email or Password Incorrect";
                 return Redirect("~/login");
             }
+
+
+
+
+        }
+      
+        //Register and Send Email
+        [HttpPost]
+        [Route("postRegister")]
+        public async Task<IActionResult> PostRegister(string check_password, [Bind("DisplayName,Email,Password")] Account account)
+        {
+            ViewBag.panelActive = "right-panel-active";
+            //check validate entity framework model
+            if (ModelState.IsValid)
+            {
+                var acc = _context.Accounts.Where(a => a.Email.Contains(account.Email)).FirstOrDefault();
+                // check unique email
+                if (acc == null)
+                {
+                    //check confirm password
+                    if (check_password == account.Password)
+                    {
+                        DateTime localDate = DateTime.Now;
+                        account.CreateDate = localDate;
+                        account.UpdateDate = localDate;
+                        account.Avatar = "/assets/img/160x160/img1.jpg";
+                        account.Role = "USER";
+                        account.Status = 2;
+                        account.Token = AccountServics.RederToken();
+                        var md5pass = Utility.MD5Hash(account.Password);
+                        account.Password = md5pass;
+                        _context.Add(account);
+                        await _context.SaveChangesAsync();
+                        await mailService.SendEmailAsync(account.Email, account.Token);
+                        TempData["done"] = "Sign Up Success,Please Check Your Email";
+                        return RedirectToAction(nameof(Login));
+                    }
+                    else
+                    {
+                        ViewBag.checkpassword = "password does not match";
+                        return View("Login", account);
+                    }
+                }
+                else
+                {
+                    ViewBag.checkemail = "The Email was registered";
+                    return View("Login", account);
+                }
+
+            }
+            return View("Login", account);
         }
 
-        [Route("logout",Name ="LogOut")]
-        public async Task<IActionResult>  Logout()
+        [Route("logout", Name = "LogOut")]
+        public async Task<IActionResult> Logout()
         {
             var id = @User.Claims.Skip(4).FirstOrDefault().Value;
             var accountId = Int32.Parse(id);
@@ -90,6 +140,26 @@ namespace Doctors_Web_Forum_FE.Controllers
             await _context.SaveChangesAsync();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("~/");
+
+        }
+
+        //Account activation via email
+        [Route("active-accounts/{email}/{token}")]
+        public async Task<IActionResult> ActiveAccount(string email, string token)
+        {
+            var account = _context.Accounts.Where(a => a.Email == email).FirstOrDefault();
+            if (token == account.Token)
+            {
+                account.Token = null;
+                account.Status = 1;
+                _context.Accounts.Update(account);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Login));
+            }
+            else
+            {
+                return RedirectToAction(nameof(Login));
+            }
         }
     }
 }
