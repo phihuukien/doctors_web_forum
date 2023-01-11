@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace Doctors_Web_Forum_FE.Controllers
 {
@@ -22,15 +23,23 @@ namespace Doctors_Web_Forum_FE.Controllers
 
         // get all questions
         [Route("")]
-        public IActionResult Question()
+        public IActionResult Question(string title, int page = 1)
         {
-            var questions = _context.Questions.Include(T => T.Topic).Include(A => A.Account).OrderByDescending(Q=>Q.CreateDate).AsEnumerable();
-            ViewData["numberOfQuestion"] = _context.Questions.Count();
+            page = page < 1 ? 1 : page;
+            int pageSize = 5;
+
+            var questions = _context.Questions.Include(T => T.Topic).Include(A => A.Account).Where(x=>x.Status == true).OrderByDescending(Q => Q.CreateDate).ToPagedList(page, pageSize);
+            if (!string.IsNullOrEmpty(title))
+            {
+                 questions = _context.Questions.Include(T => T.Topic).Include(A => A.Account).Where(x=>x.Title.Contains(title) && x.Status == true).OrderByDescending(Q => Q.CreateDate).ToPagedList(page, pageSize);
+                ViewBag.titleSearch = title;
+                ViewBag.numberOfQuestionSearch = questions.Count();
+            }
+            ViewBag.numberOfQuestion = _context.Questions.Count();
             return View(questions);
         }
 
         // question detail 
-        [Authorize]
         [Route("{id}")]
         public IActionResult QuestionDetail(int id)
         {
@@ -46,11 +55,12 @@ namespace Doctors_Web_Forum_FE.Controllers
         [Route("get-topic")]
         public IActionResult GetTopics()
         {
-            var topics = _context.Topics.AsEnumerable();
+            var topics = _context.Topics.Where(x=>x.Status == true).AsEnumerable();
             return new JsonResult(topics);
         }
 
         // insert new question 
+        [Authorize]
         [Route("insert")]
         [HttpPost]
         public async Task<IActionResult> Insert([FromForm] Question question )
@@ -58,18 +68,18 @@ namespace Doctors_Web_Forum_FE.Controllers
             string accountId = @User.Claims.Skip(4).FirstOrDefault().Value;
             question.CreateDate = DateTime.Now;
             question.UpdateDate = DateTime.Now;
+            question.Status =true;
             question.AccountId = Int32.Parse(accountId);
              _context.Questions.Add(question);
             await _context.SaveChangesAsync();
-            var s = question.QuestionId;
             return Ok(new { message="Success Insert", id= question.QuestionId });
         }
 
         // insert comment
+        [Authorize]
         [Route("post-Comment")]
         public async Task<IActionResult>  PostComment([FromForm] Comment comment)
         {
-
             var question = _context.Questions.Where(Q => Q.QuestionId == comment.QuestionId).FirstOrDefault();
             int totalQuestions = question.TotalQuestion;
             question.TotalQuestion = totalQuestions + 1;
@@ -84,13 +94,5 @@ namespace Doctors_Web_Forum_FE.Controllers
             await _context.SaveChangesAsync();
             return Ok(new { message = "Success Comment" });
         }
-
-        //public   Question UpdateTotalQuestion(int questionId)
-        //{
-        //    var question = _context.Questions.Where(Q => Q.QuestionId == questionId).FirstOrDefault();
-        //    int totalQuestions = question.TotalQuestion;
-        //    question.TotalQuestion = totalQuestions + 1;
-        //   return question;
-        //}
     }
 }

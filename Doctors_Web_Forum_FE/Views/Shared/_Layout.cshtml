@@ -1,5 +1,4 @@
-﻿
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -20,31 +19,26 @@
         }
     </style>
 </head>
-<body>
-    <partial name="header" />
-    <main id="content" role="main" class="main" style="padding-top: 3.75rem;">
-        <div class="bg-dark">
-            <div class="content container" style="height: 20rem;">
+<body  style="background-image: linear-gradient(rgb(0 0 0 / 50%),rgb(0 0 0 / 50%)),url('assets/plus-symbol-background-4776812.jpg'); ">
 
+    <partial name="header" />
+
+    <main id="content" role="main" class="main" style="padding-top: 3.75rem;">
+        <div class="bg-dark" style="background-image: linear-gradient(rgb(0 0 0 / 50%),rgb(0 0 0 / 50%)),url('assets/plus-symbol-background-4776812.jpg'); ">
+            <div class="content container" style="height: 22rem;">
             </div>
         </div>
         <div class="content container" style="margin-top: -20rem;">
             <partial name="navbar" />
-
             <div class="sidebar-detached-content mt-3 mt-lg-0 fix-conten">
                 <div class="card mb-3 mb-lg-5">
                     <div class="card-body card-body-centered " style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
-
                         @RenderBody()
                     </div>
                 </div>
-
             </div>
-
-
         </div>
     </main>
-
 
     <div class="modal fade" id="addEventToCalendarModal" tabindex="-1" data-select2-id="addEventToCalendarModal" style="display: none; padding-left:0;" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document" data-select2-id="21" style="max-width:1100px;">
@@ -52,7 +46,6 @@
                 <form class="modal-content">
                     <div class="modal-header">
                         <h2 id="inviteUserModalTitle" class="modal-title">Ask a public question</h2>
-
                         <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
                             <i class="tio-clear tio-lg"></i>
                         </button>
@@ -68,7 +61,6 @@
                         <div class="form-row mb-1">
                             <h5 class="col modal-title">What are the details of your question?</h5>
                         </div>
-
                         <div class="form-group">
                             <textarea id="editor" name="editor">
                             </textarea>
@@ -88,16 +80,13 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.3.slim.js"
-            integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc="
-            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.slim.js"  integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="assets\js\vendor.min.js"></script>
     <script src="assets\vendor\chart.js\dist\Chart.min.js"></script>
     <script src="assets\vendor\chart.js.extensions\chartjs-extensions.js"></script>
     <script src="assets\vendor\chartjs-plugin-datalabels\dist\chartjs-plugin-datalabels.min.js"></script>
     <script src="assets\js\theme.min.js"></script>
-
     <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/super-build/ckeditor.js"></script>
     <script>
         $(document).on('ready', function () {
