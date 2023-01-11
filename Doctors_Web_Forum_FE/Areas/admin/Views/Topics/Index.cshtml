@@ -1,0 +1,159 @@
+﻿@model IEnumerable<Doctors_Web_Forum_FE.Models.Topic>
+
+@{
+    ViewData["Title"] = "Topic";
+    Layout = "~/Areas/admin/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+<style>
+    .display-edit {
+        display: block !important;
+    }
+</style>
+<div id="modify">
+
+</div>
+<div class="row">
+    <div class="col-md-7">
+        <div class="card">
+            <h5 class="card-header">All Topic</h5>
+            <div class="card-body">
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="color:black">Topic Name</th>
+                                <th style="color:black">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="position: relative;">
+                                        @Html.DisplayFor(modelItem => item.TopicName)
+                                        @if(item.Status==true){
+                                          <span class="badge rounded-pill bg-success" style="font-size:9px; position: absolute;top:6px;">@(item.Status==true?"Show":"hide")</span>
+                                        }else{
+                                          <span class="badge rounded-pill bg-danger" style="font-size:9px; position: absolute;top:6px;">@(item.Status==true?"Show":"hide")</span>
+                                        }
+
+                                    </td>
+                                    <td style=" cursor: pointer;">
+                                        <a onclick="Edit(@item.TopicId)">Edit</a> 
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card mb-4">
+            <h5 class="card-header" id="Edit">Add New Topic</h5>
+            <div class="card-body">
+                <div class="form-floating">
+                    <input type="hidden" class="form-control" id="Id">
+                    <input type="text" class="form-control" id="Name" placeholder="John Doe" aria-describedby="floatingInputHelp">
+                    <small id="error" style="color:red;"></small>
+                    <label for="floatingInput">Topic Name</label>
+                    <div id="statusShow" style="display:none;">
+                        <small class="text-light fw-semibold d-block mt-3">Status</small>
+                        <div class="form-check form-check-inline ">
+                            <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="true">
+                            <label class="form-check-label" for="inlineRadio1">Show</label>
+                        </div>
+                        <div class="form-check form-check-inline ">
+                            <input class="form-check-input" type="radio" name="status" id="inlineRadio2" value="false">
+                            <label class="form-check-label" for="inlineRadio2">hide</label>
+                        </div>
+
+                    </div>
+                    <button id="buttomShow" type="button" style="float: right; display: none;" class="btn btn-danger  mt-3" onclick="Cancel()">Cancel</button>
+                    <button type="button" style="float: right; margin-right: 10px;" class="btn btn-success mt-3" onclick="save()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+    <script>
+        function save() {
+            var id = $('#Id').val();
+            var Name = $('#Name').val();
+            if ("" == id) {
+                var formData = new FormData();
+                formData.append("topicName", Name);
+                $.ajax({
+                    url: "http://localhost:18039/admin/topics/insert",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                      
+                       Notification()
+                    },
+                    error: function (msg) {
+                        $('#error').text(msg.responseJSON.message);
+                    }
+                });
+            } else {
+                var Status = $("input[name=status]:checked").val();
+                var formData = new FormData();
+                formData.append("topicId", id);
+                formData.append("topicName", Name);
+                formData.append("status", Status);
+                $.ajax({
+                    url: "http://localhost:18039/admin/topics/update",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        window.location.reload();
+                      
+                    },
+                    error: function (msg) {
+                        $('#error').text(msg.responseJSON.message);
+                    }
+                });
+            }
+
+        }
+        function Edit(id) {
+            $('#Edit').text("Update Topic");
+            var element = document.getElementById("statusShow");
+            var element_2 = document.getElementById("buttomShow");
+            element.classList.add("display-edit");
+            element_2.classList.add("display-edit");
+            $.ajax({
+                url: "http://localhost:18039/admin/topics/edit/" + id,
+                type: 'GET',
+                success: function (data) {
+                    $('#Id').val(data.topicId);
+                    $('#Name').val(data.topicName);
+                    if (data.status == true) {
+                        $('#inlineRadio1').attr('checked', 'checked');
+                    } else {
+
+                        $('#inlineRadio2').attr('checked', 'checked');
+                    }
+                },
+                error: function (msg) {
+                    alert(msg.responseJSON.message);
+                }
+            });
+        }
+        function Notification() {
+         
+            window.location.reload()
+        }
+        function Cancel() {
+            window.location.reload();
+        }
+    </script>
+}

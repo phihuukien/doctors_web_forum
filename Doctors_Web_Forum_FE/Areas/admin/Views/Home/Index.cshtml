@@ -4,5 +4,85 @@
     Layout = "~/Areas/admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Home</h2>
+<div class="row">
+    <div class="col-lg-4 col-md-12 col-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between mb-0">
+                    <div class="avatar flex-shrink-0">
+                        <i class="bx bx-question-mark" style="font-size: 30px; color: #f72e2ed6; "></i>
+                    </div>
+
+                </div>
+                <span class="fw-semibold d-block mb-1">Questions</span>
+                <h3 class="card-title text-nowrap mb-1">@ViewData["questionsTotal"]</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 col-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between mb-0">
+                    <div class="avatar flex-shrink-0">
+                        <i class="bx bx-comment" style="font-size: 30px; color: #3ec486;"></i>
+                    </div>
+                </div>
+                <span class="fw-semibold d-block mb-1">Answers</span>
+                <h3 class="card-title text-nowrap mb-1">@ViewData["answersTotal"]</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 col-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between mb-0">
+                    <div class="avatar flex-shrink-0">
+                        <i class="bx bx-add-to-queue" style="font-size:30px;"></i>
+                    </div>
+                </div>
+                <span class="fw-semibold d-block mb-1">Questions Today</span>
+                <h3 class="card-title text-nowrap mb-1">@ViewData["questionsToday"]</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 col-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between mb-0">
+                    <div class="avatar flex-shrink-0">
+                        <i class="bx bx-user" style="font-size: 30px; color: #002bff;"></i>
+                    </div>
+                </div>
+                <span class="fw-semibold d-block mb-1">Users</span>
+                <h3 class="card-title text-nowrap mb-1">@ViewData["UserTotal"]</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 col-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between mb-0">
+                    <div class="avatar flex-shrink-0">
+                        <i class="bx bx-lock" style="font-size:30px;"></i>
+                    </div>
+                </div>
+                <span class="fw-semibold d-block mb-1">User locked</span>
+                <h3 class="card-title text-nowrap mb-1">@ViewData["UserTotalLoked"]</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 col-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between mb-0">
+                    <div class="avatar flex-shrink-0">
+                        <i class="bx bx-user-x" style="font-size:30px;"></i>
+                    </div>
+                </div>
+                <span class="fw-semibold d-block mb-1">user isn't active</span>
+                <h3 class="card-title text-nowrap mb-1">@ViewData["UserNotActive"]</h3>
+            </div>
+        </div>
+    </div>
+</div>
 

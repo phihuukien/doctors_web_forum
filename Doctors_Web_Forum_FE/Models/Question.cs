@@ -17,8 +17,7 @@ namespace Doctors_Web_Forum_FE.Models
         public string Title { get; set; }
         [Column(TypeName = "ntext")]
         public string Detail { get; set; }
-        public int TotalQuestion { get; set; }
-
+        public int TotalQuestion{ get; set; }
         [ForeignKey("Account")]
         public int AccountId { get; set; }
         [ForeignKey("Topic")]

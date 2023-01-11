@@ -14,7 +14,7 @@ namespace Doctors_Web_Forum_FE.Models
         [Key]
         public int AccountId { get; set; }
 
-        [StringLength(50, MinimumLength = 6, ErrorMessage = "Display name must be between 6 and 50 characters")]
+        [StringLength(50, MinimumLength = 6 ,ErrorMessage = "Display name must be between 6 and 50 characters")]
         [Required(ErrorMessage = "DisplayName cannot be empty")]
         public string DisplayName { get; set; }
 
@@ -46,21 +46,19 @@ namespace Doctors_Web_Forum_FE.Models
         public string About { get; set; }
 
         [StringLength(200)]
-        public string Location { get; set; }
+        public string Token { get; set; }
 
         [StringLength(200)]
-        public string Token { get; set; }
+        public string Location { get; set; }
 
         [Column(TypeName = "ntext")]
         public string Experience { get; set; }
 
         [Column(TypeName = "ntext")]
         public string Achievement { get; set; }
-
-        [StringLength(200)]
+      
         public string Qualification { get; set; }
-
-        [StringLength(200)]
+       
         public string Specialization { get; set; }
 
         [Column(TypeName = "ntext")]
