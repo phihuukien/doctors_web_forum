@@ -1,6 +1,9 @@
-﻿@model IEnumerable<Doctors_Web_Forum_FE.Models.Question>
+﻿
+@model X.PagedList.IPagedList<Doctors_Web_Forum_FE.Models.Question>
+@using X.PagedList.Mvc.Core;
 @{
     ViewData["Title"] = "Newest QuesTions";
+
 }
 
 
@@ -17,10 +20,18 @@
 
         <div class="row align-items-center mt-4">
             <div class="col">
-                <span>@ViewData["numberOfQuestion"] questions</span>
+                @if (ViewBag.numberOfQuestionSearch > 0)
+                {
+                    <span>@ViewBag.numberOfQuestionSearch questions</span>
+                }
+                else
+                {
+                    <span>@ViewBag.numberOfQuestion questions</span>
+                }
+
             </div>
             <div class="col-auto">
-                <a class="btn btn-primary" data-toggle="modal" data-target="#addEventToCalendarModal">Ask Question</a>
+              
             </div>
         </div>
     </div>
@@ -87,3 +98,17 @@
         </div>
     </div>
 }
+<div class="col-md-12 d-flex" style="width: 100%;justify-content: space-between;">
+    <div> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
+
+    @Html.PagedListPager(Model, page => Url.Action("Question",
+        new { page, title = @ViewBag.titleSearch }),
+
+        new PagedListRenderOptions
+        {
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" }
+        })
+
+</div>
+
