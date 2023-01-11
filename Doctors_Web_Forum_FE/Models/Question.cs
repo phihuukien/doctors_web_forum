@@ -26,7 +26,6 @@ namespace Doctors_Web_Forum_FE.Models
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
 
-
         public Account Account { get; set; }
 
         public ICollection<Comment> Comments { get; set; }

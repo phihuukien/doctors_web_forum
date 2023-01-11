@@ -112,7 +112,7 @@
                                         </div>
                                     </div>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" asp-action="Profile" asp-controller="Account" asp-route-id="@User.Claims.Skip(4).FirstOrDefault().Value">
                                         <span class="text-truncate pr-2" title="Profile &amp; account">Profile &amp; account</span>
                                     </a>
                                     <a class="dropdown-item" asp-route="LogOut">
