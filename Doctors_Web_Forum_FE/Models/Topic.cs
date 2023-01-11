@@ -15,6 +15,7 @@ namespace Doctors_Web_Forum_FE.Models
         [StringLength(100)]
         [Required(ErrorMessage = "Cannot be empty")]
         public string TopicName { get; set; }
+        public bool Status { get; set; }
         public ICollection<Question> Questions { get; set; }
     }
 }
