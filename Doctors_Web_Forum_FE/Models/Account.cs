@@ -15,7 +15,6 @@ namespace Doctors_Web_Forum_FE.Models
         public int AccountId { get; set; }
 
         [StringLength(50, MinimumLength = 6 ,ErrorMessage = "Display name must be between 6 and 50 characters")]
-        
         [Required(ErrorMessage = "DisplayName cannot be empty")]
         public string DisplayName { get; set; }
 
@@ -47,23 +46,20 @@ namespace Doctors_Web_Forum_FE.Models
         public string About { get; set; }
 
         [StringLength(200)]
-        public string Work_Place { get; set; }
-
-        [StringLength(200)]
-        public string Position { get; set; }
-
-        [StringLength(200)]
         public string Token { get; set; }
+
+        [StringLength(200)]
+        public string Location { get; set; }
 
         [Column(TypeName = "ntext")]
         public string Experience { get; set; }
 
         [Column(TypeName = "ntext")]
         public string Achievement { get; set; }
-        [ForeignKey("Qualification")]
-        public int? QualificationId { get; set; }
-        [ForeignKey("Specialization")]
-        public int? SpecializationId { get; set; }
+      
+        public string Qualification { get; set; }
+       
+        public string Specialization { get; set; }
 
         [Column(TypeName = "ntext")]
         public string LinkFaceBook { get; set; }
@@ -77,10 +73,6 @@ namespace Doctors_Web_Forum_FE.Models
         public DateTime CreateDate { get; set; }
 
         public DateTime UpdateDate { get; set; }
-
-        public Qualification Qualification { get; set; }
-
-        public Specialization Specialization { get; set; }
 
         public ICollection<Question> Questions { get; set; }
         public ICollection<Comment> Comments{ get; set; }

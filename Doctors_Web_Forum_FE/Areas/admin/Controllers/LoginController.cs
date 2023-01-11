@@ -75,7 +75,7 @@ namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
                 TempData["email"] = Email;
                 TempData["password"] = Password;
                 TempData["error"] = "Email or Password Incorrect";
-                return Redirect("~/login");
+                return Redirect("~admin/login");
             }
         }
     }

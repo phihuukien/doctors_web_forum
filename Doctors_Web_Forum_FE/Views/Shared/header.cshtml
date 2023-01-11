@@ -1,15 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 <div id="searchDropdown" class="hs-unfold-content dropdown-unfold search-fullwidth d-md-none">
-    <form class="input-group input-group-merge input-group-borderless">
+    <form action="question" method="get" class="input-group input-group-merge input-group-borderless">
         <div class="input-group-prepend">
             <div class="input-group-text">
                 <i class="tio-search"></i>
             </div>
         </div>
-
-        <input class="form-control rounded-0" type="search" placeholder="Search in front" aria-label="Search in front">
-
+        <input class="form-control rounded-0" type="search" name="title" placeholder="Search in front" aria-label="Search in front">
         <div class="input-group-append">
             <div class="input-group-text">
                 <div class="hs-unfold">
@@ -31,30 +29,21 @@
     <div class="container">
         <div class="navbar-nav-wrap">
             <div class="navbar-brand-wrapper">
-                <!-- Logo -->
-                <a class="navbar-brand" href="..\index.html" aria-label="Front" style="color:#978e8e;">
+                <a class="navbar-brand" href="/" aria-label="Front" style="color:#978e8e;">
                     <img style="width:50px; border-radius:100px;" src="..\assets\svg\logos\logo.png" alt="Logo">
                     Health <span style="font-weight: 900; color: black;">Talk</span>
                 </a>
-                <!-- End Logo -->
             </div>
-
             <div class="navbar-nav-wrap-content-left">
                 <div class="d-none d-lg-block">
-                    <form class="position-relative">
+                    <form class="position-relative" action="question" method="get">
                         <div class="input-group input-group-merge navbar-input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
                                     <i class="tio-search"></i>
                                 </div>
                             </div>
-                            <input type="search" class="js-form-search form-control" placeholder="Search in front" aria-label="Search in front" data-hs-form-search-options='{
-                         "clearIcon": "#clearSearchResultsIcon",
-                         "dropMenuElement": "#searchDropdownMenu",
-                         "dropMenuOffset": 20,
-                         "toggleIconOnFocus": true,
-                         "activeClass": "focus"
-                       }'>
+                            <input type="search" class="js-form-search form-control" name="title" placeholder="Search..." value="@ViewBag.titleSearch">
                             <a class="input-group-append" href="javascript:;">
                                 <span class="input-group-text">
                                     <i id="clearSearchResultsIcon" class="tio-clear" style="display: none;"></i>
@@ -65,7 +54,6 @@
                 </div>
             </div>
             <div class="navbar-nav-wrap-content-right">
-                <!-- Navbar -->
                 <ul class="navbar-nav align-items-center flex-row">
                     <li class="nav-item d-lg-none">
                         <div class="hs-unfold">
@@ -103,15 +91,14 @@
                         {
                             <div class="hs-unfold">
                                 <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper" href="javascript:;" data-hs-unfold-options='{
-                     "target": "#accountNavbarDropdown",
-                     "type": "css-animation"
-                   }'>
+                                     "target": "#accountNavbarDropdown",
+                                     "type": "css-animation"
+                                   }'>
                                     <div class="avatar avatar-sm avatar-circle">
                                         <img class="avatar-img" src="@User.Claims.Skip(3).FirstOrDefault().Value" alt="Image Description">
                                         <span class="avatar-status avatar-sm-status avatar-status-success"></span>
                                     </div>
                                 </a>
-
                                 <div id="accountNavbarDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu navbar-dropdown-account" style="width: 16rem;">
                                     <div class="dropdown-item-text">
                                         <div class="media align-items-center">
@@ -124,12 +111,10 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">
                                         <span class="text-truncate pr-2" title="Profile &amp; account">Profile &amp; account</span>
                                     </a>
-
                                     <a class="dropdown-item" asp-route="LogOut">
                                         <span class="text-truncate pr-2" title="Sign out">Sign out</span>
                                     </a>
@@ -138,7 +123,7 @@
                         }
                         else
                         {
-                            <a asp-route="LogIn">   <button type="button" class="btn btn-outline-success mr-2">LogIn </button></a>
+                            <a asp-route="LogIn"><button type="button" class="btn btn-outline-success mr-2">LogIn </button></a>
                         }
                     </li>
                 </ul>

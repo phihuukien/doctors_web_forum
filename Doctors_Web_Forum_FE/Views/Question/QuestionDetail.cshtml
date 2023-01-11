@@ -11,7 +11,6 @@
     }
     .mystyle {
         display: block !important;
-     
     }
 </style>
 <div class="content container pb-0">
@@ -30,14 +29,11 @@
                     else
                     {
                         <span>@question.CreateDate</span>
-                        @*<span>@String.Format("{0:dd/MM/yyyy}", @question.CreateDate)</span>*@
                     }
-
                 </div>
             </div>
             <div class="col-auto">
                 <a class="btn btn-primary" data-toggle="modal" data-target="#addEventToCalendarModal"> Ask Question</a>
-
             </div>
         </div>
     </div>
@@ -46,7 +42,6 @@
     <p class="page-header-title" style="color: black; font-size: 1.19rem;">
         @question.Title
     </p>
-
     <p>
         @Html.Raw(question.Detail)
     </p>
@@ -57,13 +52,10 @@
     </div>
     @foreach (var item in Model)
     {
-
         @if (item.Reply == 0)
         {
-
             <div class=" row border-top">
                 <div class="d-flex  col-md-12">
-
                     <div class="pt-3">
                         <img style="width:40px; border-radius:100px;" src="@Html.DisplayFor(modelItem => item.Account.Avatar)" alt="Logo">
                     </div>
@@ -74,9 +66,7 @@
                                     <h5 class="mr-2" style="font-weight: 700; font-family: sans-serif;">@Html.DisplayFor(modelItem => item.Account.DisplayName)</h5>
                                 </div>
                                 <div class="comment-text-sm">
-                                 
                                         @Html.Raw(item.Content)
-                                   
                                 </div>
                             </div>
                             <div class="reply-section">
@@ -88,13 +78,10 @@
                                 </div>
                             </div>
                         </div>
-
-                        @*------------  reply   -------------*@
                         @foreach (var item_2 in Model)
                         {
                             @if (item_2.Reply != 0 && item.CommentId == item_2.Reply)
                             {
-
                                 <div class=" row ">
                                     <div class="d-flex  col-md-12">
                                         <div class="pt-3">
@@ -108,14 +95,13 @@
                                                     </div>
                                                     <div class="comment-text-sm">
                                                         <p style="color:black">
-                                                          
                                                             @item_2.Content
                                                         </p>
                                                     </div>
                                                 </div>
                                                 <div class="reply-section">
                                                     <div class="d-flex flex-row align-items-center voting-icons">
-                                                        <h6 class="ml-2 mt-1" style="cursor: pointer;"  onclick="reply('reply-@item.CommentId','@item_2.Account.DisplayName','@item.CommentId');">Reply</h6>
+                                                        @*<h6 class="ml-2 mt-1" style="cursor: pointer;"  onclick="reply('reply-@item.CommentId','@item_2.Account.DisplayName','@item.CommentId');">Reply</h6>*@
                                                         <span class="mb-1 ml-4">
                                                             Answered @item_2.CreateDate
                                                         </span>
@@ -126,10 +112,8 @@
                                         </div>
                                     </div>
                                 </div>
-
                             }
                         }
-                        @*------------ end reply   -------------*@
                         <div class="row mb-2 " id="reply-@item.CommentId" style="display:none;" >
                             <div class="d-flex" style="justify-content:space-between;">
                                 <div class="pl-2">  <img style="width:30px; border-radius:100px;" src="@User.Claims.Skip(3).FirstOrDefault().Value" alt="Logo"></div>
@@ -143,31 +127,26 @@
             </div>
         }
     }
-
 </div>
-
 <div class="container">
     <div style=" border-top: 1px solid #7b747c61; "> <h3 class="mt-3" id="">Your Answer</h3> </div>
-    <textarea id="editorAnswer" name="editorAnswer">
-                            </textarea>
+    <textarea id="editorAnswer" name="editorAnswer"></textarea>
     <div class=" mt-4">
         <a class="btn btn-primary" onclick="postComment('@question.QuestionId')">Post Your Answer</a>
     </div>
 </div>
-
 @section Scripts{
     <script>
-      
+        // get the Name of the root answer and assign it to the Reply
         function reply(commentId, name, id) {
             var element = document.getElementById(commentId);
             element.classList.toggle("mystyle");
             document.getElementById("content-comment-" + id).value = name.toUpperCase();
-
         };
     </script>
     <script src="~/assets/js/question/ckeditorAnswer.js"></script>
     <script>
-
+        // reply the answer
         function postReply(questionId, commentId) {
             var content = $('#content-comment-' + commentId).val();
             var formData = new FormData();
@@ -188,6 +167,7 @@
                 }
             });
         }
+        // answer the question
         function postComment(id) {
             var formData = new FormData();
             formData.append("questionId", id);

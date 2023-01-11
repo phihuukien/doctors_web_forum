@@ -1,18 +1,16 @@
-﻿
-@model X.PagedList.IPagedList<Doctors_Web_Forum_FE.Models.Account>
+﻿@model X.PagedList.IPagedList<Doctors_Web_Forum_FE.Models.Question>
 
 @using X.PagedList.Mvc.Core;
+
 @{
-    ViewData["Title"] = "Account";
+    ViewData["Title"] = "Index";
     Layout = "~/Areas/admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-
-@Html.Raw(TempData["message"])
 <div class="card">
-    <form action="admin/accounts" method="get">
+    <form action="admin/questions" method="get">
         <div class="input-group card-body pb-0" style=" width: 37%;">
 
-            <input type="text" class="form-control" name="email" placeholder="Search..." value="@ViewBag.emailSearch">
+            <input type="text" class="form-control" name="title" placeholder="Search..." value="@ViewBag.titleSearch">
             <button class="btn btn-outline-primary" type="submit" id="button-addon2">Search</button>
 
         </div>
@@ -23,8 +21,9 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Basic Information</th>
-                        <th>BirthDay</th>
+                        <th>Maker</th>
+                        <th>Title</th>
+                        <th>Answers Total</th>
                         <th>Status</th>
                         <th>Created Date</th>
                         <th>Actions</th>
@@ -36,38 +35,38 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                    <img src="@item.Avatar" alt="user-avatar" class="d-block rounded" height="60" width="60" id="uploadedAvatar">
+                                    <img src="@item.Account.Avatar" alt="user-avatar" class="d-block rounded" height="60" width="60" id="uploadedAvatar">
                                     <div class="button-wrapper">
 
-                                        <p class="fw-bold mb-0">@item.DisplayName</p>
-                                        <p class=" mb-0">@item.Email</p>
+                                        <p class="fw-bold mb-0">@item.Account.DisplayName</p>
+                                        <p class=" mb-0">@item.Account.Email</p>
                                     </div>
                                 </div>
 
                             </td>
+                            <td> @item.Title </td>
+                            <td>  @item.TotalQuestion</td>
                             <td>
-                                @if (item.BirthDay == null)
+                                @if (@item.Status == true)
                                 {
-                                    <small>.............</small>
+                                    <span class="badge bg-label-success me-1">Pass</span>
                                 }
                                 else
                                 {
-                                    @item.BirthDay
+                                    <span class="badge bg-label-warning me-1">Fail</span>
                                 }
+
                             </td>
-                            <td><span class="badge bg-label-primary me-1">Active</span></td>
                             <td>  <span>@String.Format("{0:MM/dd/yyyy}", @item.CreateDate)</span></td>
                             <td>
                                 <div class="dropdown">
-
-                                    <a href="admin/accounts/delete/@item.AccountId" onclick="return confirm('Are you sure you want to delete this item?');"><button type="button" class="btn btn-sm btn-danger"><i class="bx bx-trash me-1"></i> Delete</button></a>
-                                    @if (@item.Status == 4)
+                                    @if (@item.Status == true)
                                     {
-                                        <a href="admin/accounts/unlock/@item.AccountId"><button type="button" class="btn btn-sm btn-danger"><i class="bx bx-lock me-1"></i> Unlock</button></a>
+                                        <a href="admin/questions/lock/@item.QuestionId"><button type="button" class="btn btn-sm btn-danger"><i class="menu-icon tf-icons bx bx-lock-open-alt"></i>Lock</button></a>
                                     }
                                     else
                                     {
-                                        <a href="admin/accounts/lock/@item.AccountId"><button type="button" class="btn btn-sm btn-danger"><i class="menu-icon tf-icons bx bx-lock-open-alt"></i>lock</button></a>
+                                        <a href="admin/questions/pass/@item.QuestionId"><button type="button" class="btn btn-sm btn-success">receive</button></a>
                                     }
 
                                 </div>
@@ -77,11 +76,12 @@
 
                 </tbody>
             </table>
+
         </div>
         <div class="col-md-12 mt-5 d-flex" style="width: 100%;justify-content: space-between;">
             <div> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
 
-            @Html.PagedListPager(Model, page => Url.Action("Account",
+            @Html.PagedListPager(Model, page => Url.Action("Index",
                 new { page, title = @ViewBag.titleSearch }),
 
                 new PagedListRenderOptions
