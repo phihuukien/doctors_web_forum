@@ -30,8 +30,8 @@ namespace Doctors_Web_Forum_FE.Controllers
             HttpContext.Session.SetString("isAction", isActive.ToString());
             HttpContext.Session.SetString("registed", registed.ToString());
             var questions = _context.Questions.Include(T => T.Topic).Include(A => A.Account).Where(x=>x.CreateDate.Day == DateTime.Now.Day && x.Status == true).OrderByDescending(Q => Q.CreateDate).ToPagedList(page, pageSize); ;
-            ViewBag.recentQuestion = questions.Count;
-            if (questions.Count == 0 )
+            ViewBag.recentQuestion = questions.Count();
+            if (questions.Count() == 0 )
             {
                 questions = _context.Questions.Include(T => T.Topic).Include(A => A.Account).Where(x =>  x.Status == true).OrderByDescending(Q => Q.CreateDate).Take(20).ToPagedList(page, pageSize);
             }

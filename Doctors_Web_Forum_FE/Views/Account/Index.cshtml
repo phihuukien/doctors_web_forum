@@ -18,7 +18,7 @@
                 <div class="col">
 
                     <div class="input-group input-group-merge">
-                        <input type="text" class="js-form-search form-control" name="doctorName" placeholder="Search..." value="@ViewBag.doctorName">
+                        <input type="text" class="js-form-search form-control" name="userName" placeholder="Search..." value="@ViewBag.userName">
                         <a class="input-group-append" href="javascript:;">
                             <span class="input-group-text">
                                 <i id="clearIconBasicEg" class="tio-clear tio-lg" style="display: none;"></i>
@@ -80,7 +80,7 @@
 <div class="col-md-12 d-flex" style="width: 100%;justify-content: space-between;">
     <div> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
 
-    @Html.PagedListPager(Model, page => Url.Action("Account",
+    @Html.PagedListPager(Model, page => Url.Action("Index",
         new { page, title = @ViewBag.titleSearch }),
 
         new PagedListRenderOptions

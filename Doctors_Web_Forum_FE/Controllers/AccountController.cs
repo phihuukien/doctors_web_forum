@@ -6,12 +6,12 @@ using Doctors_Web_Forum_FE.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 using X.PagedList;
-using Doctors_Web_Forum_FE.Models;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Doctors_Web_Forum_FE.Util;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Doctors_Web_Forum_FE.Controllers
 {
@@ -32,7 +32,7 @@ namespace Doctors_Web_Forum_FE.Controllers
             var account = _context.Accounts.Where(x => x.Status == 1 || x.Status == 3).AsQueryable();
             if (!string.IsNullOrEmpty(userName)) {
                 account = account.Where(x => x.DisplayName.ToLower().Contains(userName.ToLower()));
-                ViewBag.doctorName = userName;
+                ViewBag.userName = userName;
             }
             var accounts = account.ToPagedList(page, pageSize) ;
             return View(accounts);
@@ -49,10 +49,10 @@ namespace Doctors_Web_Forum_FE.Controllers
         [Route("edit-profile/{id}")]
         public IActionResult EditProfile(string id)
         {
-           
             var account = _context.Accounts.Find(Int32.Parse(id));
             return View(account);
         }
+        [Authorize]
         [Route("edit-profile")]
         [HttpPost]
         public IActionResult EditProfile(string pass, string old_img, Account account, IFormFile Avatar)
