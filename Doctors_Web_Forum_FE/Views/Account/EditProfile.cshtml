@@ -1,0 +1,231 @@
+﻿@model Doctors_Web_Forum_FE.Models.Account
+@{
+    ViewData["Title"] = "Edit Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content container-fluid">
+    <div class="row justify-content-lg-center">
+        <div class="col-lg-10">
+            <!-- Profile Cover -->
+            <form asp-action="EditProfile" enctype="multipart/form-data">
+                <div class="profile-cover">
+                    <div class="profile-cover-img-wrapper">
+                        <img class="profile-cover-img" src="assets\img\1920x400\img1.jpg" alt="Image Description">
+                    </div>
+                </div>
+                <label class="avatar avatar-xxl avatar-circle avatar-border-lg avatar-uploader profile-cover-avatar" for="avatarUploader">
+                    <img id="avatarImg" class="avatar-img" src="@Model.Avatar" alt="Image Description">
+
+                    <input type="file" asp-for="@Model.Avatar" class="js-file-attach avatar-uploader-input" id="avatarUploader" data-hs-file-attach-options="{
+                          &quot;textTarget&quot;: &quot;#avatarImg&quot;,
+                          &quot;mode&quot;: &quot;image&quot;,
+                          &quot;targetAttr&quot;: &quot;src&quot;,
+                          &quot;allowTypes&quot;: [&quot;.png&quot;, &quot;.jpeg&quot;, &quot;.jpg&quot;]
+                       }">
+                    <input type="hidden" name="old_img" value="@Model.Avatar"/>
+                    <span class="avatar-uploader-trigger">
+                        <i class="tio-edit avatar-uploader-icon shadow-soft"></i>
+                    </span>
+                </label>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <span class="d-block font-size-sm mb-2">Who can see your profile photo?</span>
+
+                            <!-- Select -->
+                            <select asp-for="Access_rights" class="custom-select">
+                                <option value="true">Public</option>
+                                <option value="false">Private</option>
+                            </select>
+                            <!-- End Select -->
+                        </div>
+                    </div>
+                    <!-- End Row -->
+                </div>
+                <div class="card mb-3 mb-lg-5">
+                    <div class="card-header">
+                        <h2 class="card-title h4">Basic information</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row form-group">
+                            <label for="firstNameLabel" class="col-sm-3 col-form-label input-label">Display Name</label>
+
+                            <div class="col-sm-9">
+                                <div class="input-group input-group-sm-down-break">
+                                    <input type="text" class="form-control" asp-for="DisplayName">
+                                    <span asp-validation-for="DisplayName" style="color:red"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="form-control" asp-for="Email">
+                        <div class="row form-group">
+                            <label for="organizationLabel" class="col-sm-3 col-form-label input-label">Birth Day</label>
+
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" asp-for="BirthDay">
+                            </div>
+                        </div>
+                        <div id="accountType" class="row form-group">
+                            <label class="col-sm-3 col-form-label input-label">Gender</label>
+                            <div class="col-sm-9">
+                                <div class="input-group input-group-sm-down-break">
+                                    <div class="form-control">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" asp-for="Gender" value="false" name="Gender" id="userAccountTypeRadio1">
+                                            <label class="custom-control-label" for="userAccountTypeRadio1">Male</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-control">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" asp-for="Gender" value="true" name="Gender" id="userAccountTypeRadio2">
+                                            <label class="custom-control-label" for="userAccountTypeRadio2">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="emailLabel" class="col-sm-3 col-form-label input-label">Location</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" asp-for="Location">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="emailLabel" class="col-sm-3 col-form-label input-label">Experience</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" asp-for="Experience">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="emailLabel" class="col-sm-3 col-form-label input-label">Achievement</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" asp-for="Achievement">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="emailLabel" class="col-sm-3 col-form-label input-label">Specialization</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" asp-for="Specialization">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="emailLabel" class="col-sm-3 col-form-label input-label">Qualification</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" asp-for="Qualification">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="emailLabel" class="col-sm-3 col-form-label input-label">Link FaceBook</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" asp-for="LinkFaceBook">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="emailLabel" class="col-sm-3 col-form-label input-label">Link Tiktok</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" asp-for="LinkTiktok">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="emailLabel" class="col-sm-3 col-form-label input-label">Link Youtube</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" asp-for="LinkYoutube">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="emailLabel" class="col-sm-3 col-form-label input-label">About</label>
+
+                            <div class="col-sm-9">
+                                <textarea class="form-control" asp-for="About"></textarea>
+                            </div>
+                        </div>
+                        <input type="hidden" asp-for="AccountId" value="@Model.AccountId" />
+                        <input type="hidden" asp-for="Password" value="12345Aa!" />
+                        <input type="hidden" name="pass" value="@Model.Password" />
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div id="passwordSection" class="card mb-3 mb-lg-5">
+                <div class="card-header">
+                    <h4 class="card-title">Change your password</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="EditPassword">
+                        <input type="hidden" name="AccountId" value="@Model.AccountId" />
+                        <div class="row form-group">
+                            <label for="currentPasswordLabel" class="col-sm-3 col-form-label input-label">Current password</label>
+
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" name="old_Password" id="currentPasswordLabel" placeholder="Enter current password" aria-label="Enter current password">
+                                <span style="color: red; margin-top: 24px; }">@TempData["error1"]</span>
+                            </div>                          
+                        </div>
+                        <div class="row form-group">
+                            <label for="newPassword" class="col-sm-3 col-form-label input-label">New password</label>
+
+                            <div class="col-sm-9">
+                                <input type="password" name="Password" class="js-pwstrength form-control" id="newPassword" placeholder="Enter new password" aria-label="Enter new password" data-hs-pwstrength-options="{
+                               &quot;ui&quot;: {
+                                 &quot;container&quot;: &quot;#changePasswordForm&quot;,
+                                 &quot;viewports&quot;: {
+                                   &quot;progress&quot;: &quot;#passwordStrengthProgress&quot;,
+                                   &quot;verdict&quot;: &quot;#passwordStrengthVerdict&quot;
+                                 }
+                               }
+                             }">
+                                <span style="color: red; margin-top: 24px; }">@TempData["error2"]</span>
+
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="confirmNewPasswordLabel" class="col-sm-3 col-form-label input-label">Confirm new password</label>
+                            <div class="col-sm-9">
+                                <div class="mb-3">
+                                    <input type="password" class="form-control" name="Check_Password" id="confirmNewPasswordLabel" placeholder="Confirm your new password" aria-label="Confirm your new password">
+                                    <span style="color: red; margin-top: 24px; }">@TempData["error3"]</span>
+                                </div>
+
+                                <h5>Password requirements:</h5>
+
+                                <p class="font-size-sm mb-2">Ensure that these requirements are met:</p>
+
+                                <ul class="font-size-sm">
+                                    <li>Minimum 8 characters long - the more, the better</li>
+                                    <li>At least one lowercase character</li>
+                                    <li>At least one uppercase character</li>
+                                    <li>At least one number</li>
+                                    <li>At least one special characters</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).on('ready', function () {
+            $('.js-file-attach').each(function () {
+                var customFile = new HSFileAttach($(this)).init();
+            });
+
+        });
+    </script>
+
+}

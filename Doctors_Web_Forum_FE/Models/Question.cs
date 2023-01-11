@@ -18,6 +18,7 @@ namespace Doctors_Web_Forum_FE.Models
         [Column(TypeName = "ntext")]
         public string Detail { get; set; }
         public int TotalQuestion { get; set; }
+
         [ForeignKey("Account")]
         public int AccountId { get; set; }
         [ForeignKey("Topic")]
@@ -25,7 +26,6 @@ namespace Doctors_Web_Forum_FE.Models
         public bool Status { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
-
 
         public Account Account { get; set; }
 
