@@ -3,15 +3,12 @@ using System;
 using System.Linq;
 using Doctors_Web_Forum_FE.BusinessModels;
 using Doctors_Web_Forum_FE.Models;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Threading.Tasks;
 using X.PagedList;
-using Doctors_Web_Forum_FE.Models;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Doctors_Web_Forum_FE.Util;
-using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Doctors_Web_Forum_FE.Controllers
 {
@@ -28,16 +25,17 @@ namespace Doctors_Web_Forum_FE.Controllers
         public IActionResult Index(string userName, int page = 1)
         {
             page = page < 1 ? 1 : page;
-            int pageSize = 5;
-            var account = _context.Accounts.Where(x => x.Status == 1 || x.Status == 3).AsQueryable();
+            int pageSize = 6;
+            var account = _context.Accounts.Where(x => (x.Status == 1 || x.Status == 3) && x.Role == "USER").AsQueryable();
             if (!string.IsNullOrEmpty(userName)) {
                 account = account.Where(x => x.DisplayName.ToLower().Contains(userName.ToLower()));
-                ViewBag.doctorName = userName;
+                ViewBag.userName = userName;
             }
             var accounts = account.ToPagedList(page, pageSize) ;
             return View(accounts);
             
         }
+        //   profile detail user
         [Route("profile/{id}")]
         public IActionResult Profile(int id)
         {
@@ -46,17 +44,21 @@ namespace Doctors_Web_Forum_FE.Controllers
             var account = _context.Accounts.Find(id);
             return View(account);
         }
+        //   edit profile  user
         [Route("edit-profile/{id}")]
         public IActionResult EditProfile(string id)
         {
-           
             var account = _context.Accounts.Find(Int32.Parse(id));
             return View(account);
         }
-        [Route("edit-profile")]
+
+        //update profile  user
+        [Authorize(Roles = "USER")]
+        [Route("update-profile")]
         [HttpPost]
-        public IActionResult EditProfile(string pass, string old_img, Account account, IFormFile Avatar)
+        public IActionResult UpdateProfile(string pass, string old_img, Account account, IFormFile Avatar)
         {
+            account.Password = pass;
             if (ModelState.IsValid)
             {
                 string urlImg = "";
@@ -66,7 +68,7 @@ namespace Doctors_Web_Forum_FE.Controllers
 
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
-                        Avatar.CopyToAsync(stream);
+                         Avatar.CopyToAsync(stream);
                     }
                     urlImg = "/assets/img/" + Avatar.FileName;
                     account.Avatar = urlImg;
@@ -75,17 +77,19 @@ namespace Doctors_Web_Forum_FE.Controllers
                 {
                     account.Avatar = old_img;
                 }
-                account.Password = pass;
                 account.Status = 3;
                 account.Role = "USER";
                 account.UpdateDate = DateTime.Now;
                 _context.Accounts.Update(account);
-                _context.SaveChanges();
+                 _context.SaveChanges();
+                HttpContext.Session.SetString("img", account.Avatar);
                 return Redirect("profile/" + account.AccountId);
             }
+            account.Avatar = old_img;
             return View("EditProfile", account);
         }
-
+        [Authorize(Roles = "USER")]
+        // edit password user
         [Route("edit-password")]
         [HttpPost]
         public IActionResult EditPassword(string Password, string old_Password, string Check_Password)

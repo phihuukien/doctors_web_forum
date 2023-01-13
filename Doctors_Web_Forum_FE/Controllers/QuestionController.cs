@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using X.PagedList;
@@ -60,7 +59,7 @@ namespace Doctors_Web_Forum_FE.Controllers
         }
 
         // insert new question 
-        [Authorize]
+        [Authorize(Roles = "USER")]
         [Route("insert")]
         [HttpPost]
         public async Task<IActionResult> Insert([FromForm] Question question )
@@ -68,23 +67,33 @@ namespace Doctors_Web_Forum_FE.Controllers
             string accountId = @User.Claims.Skip(4).FirstOrDefault().Value;
             question.CreateDate = DateTime.Now;
             question.UpdateDate = DateTime.Now;
-            question.Status =true;
+            question.Status = true;
             question.AccountId = Int32.Parse(accountId);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var questionExits = _context.Questions.Where(x => x.Title == question.Title).FirstOrDefault();
+            if (questionExits != null)
+            {
+                return BadRequest(new { message = "Question Duplicate" });
+            }
              _context.Questions.Add(question);
             await _context.SaveChangesAsync();
             return Ok(new { message="Success Insert", id= question.QuestionId });
         }
 
         // insert comment
-        [Authorize]
+        [Authorize(Roles = "USER")]
         [Route("post-Comment")]
         public async Task<IActionResult>  PostComment([FromForm] Comment comment)
         {
+            // update totalQuestion in question table
             var question = _context.Questions.Where(Q => Q.QuestionId == comment.QuestionId).FirstOrDefault();
             int totalQuestions = question.TotalQuestion;
             question.TotalQuestion = totalQuestions + 1;
             _context.Questions.Update(question);
-
+            // insert answer
             string accountId = @User.Claims.Skip(4).FirstOrDefault().Value;
             comment.AccountId = Int32.Parse(accountId);
             comment.CreateDate = DateTime.Now;

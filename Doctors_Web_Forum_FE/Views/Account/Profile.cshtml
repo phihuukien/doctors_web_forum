@@ -3,580 +3,532 @@
     ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="content container-fluid">
     <div class="row justify-content-lg-center">
         <div class="col-lg-10">
-            <!-- Profile Cover -->
             <div class="profile-cover">
                 <div class="profile-cover-img-wrapper">
                     <img class="profile-cover-img" src="assets\img\1920x400\img1.jpg" alt="Image Description">
                 </div>
             </div>
-            <!--End Profile Cover -->
             <div class="text-center mb-5">
-                <!-- Avatar -->
                 <div class="avatar avatar-xxl avatar-circle avatar-border-lg profile-cover-avatar">
                     <img class="avatar-img" src="@Model.Avatar" alt="Image Description">
                     <span class="avatar-status avatar-status-success"></span>
                 </div>
-                <!-- End Avatar -->
-
                 <h1 class="page-header-title">@Model.DisplayName<i class="tio-verified tio-lg text-primary"></i></h1>
-
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="js-sticky-block card mb-3 mb-lg-5">
-                <!-- Header -->
-                <div class="card-header">
-                    <h5 class="card-header-title">Stats</h5>
-                </div>
-                <!-- End Header -->
-                <!-- Body -->
-                <div class="card-body">
-                    <ul class="list-unstyled list-unstyled-py-3 text-dark mb-3">
-                        <li class="py-0">
-                            <small class="card-subtitle">Question : @ViewBag.totalQuestions</small>
-                        </li>
-                        <li class="py-0">
-                            <small class="card-subtitle">Answer : @ViewBag.totalAnswers</small>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- End Body -->
-            </div>
-            <div class="js-sticky-block card mb-3 mb-lg-5">
-                <!-- Header -->
-                <div class="card-header">
-                    <h5 class="card-header-title">Basic Information</h5>
-                </div>
-                <!-- End Header -->
-                <!-- Body -->
-                <div class="card-body">
-                    <ul class="list-unstyled list-unstyled-py-3 text-dark mb-3">
-                        <li class="py-0 mb-2">
-                            <p>Email : @Model.Email</p>
-                        </li>
-                        <li class="py-0 mb-2">
-                            <p>Birth Day :@string.Format("{0:MM/dd/yyyy}", Model.BirthDay) </p>
-                        </li>
-                        <li class="py-0 mb-2">
-                            <p>Gender : @(Model.Gender==true?"Female":"Male")</p>
-                        </li>
-                        <li class="py-0 mb-2">
-                            <p>Location : @Model.Location</p>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- End Body -->
-            </div>
-        </div>
-        <div class="col-lg-8">
-            <!-- Card -->
-            <div class="card mb-3 mb-lg-5">
-                <!-- Header -->
-                <div class="card-header">
-                    <h5 class="card-header-title">Profile Detail</h5>
-                    <!-- Unfold -->
-                    <div class="hs-unfold">
-                        @if (Model.AccountId == Int32.Parse(@User.Claims.Skip(4).FirstOrDefault().Value))
-                        {
-                            <div class="col-sm-auto">
-                                <a class="btn btn-primary" asp-action="EditProfile" asp-route-id="@User.Claims.Skip(4).FirstOrDefault().Value">
-                                    <i class="tio-user mr-1"></i> Edit Profile
-                                </a>
-                            </div>
-                        }
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="js-sticky-block card mb-3 mb-lg-5">
+                    <div class="card-header">
+                        <h5 class="card-header-title">Stats</h5>
                     </div>
-                    <!-- End Unfold -->
-                </div>
-                <!-- End Header -->
-                <!-- Body -->
-                @if (Model.AccountId == Int32.Parse(@User.Claims.Skip(4).FirstOrDefault().Value))
-                {
                     <div class="card-body">
-                        <div class="card-body">
-
-                            <div class="accordion" id="accordionExample">
-                                <div class="card" id="headingOne">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        About
-
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
-                                            </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            @if (Model.About == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.About</p>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion mt-2" id="accordionExample_2">
-                                <div class="card" id="headingTwo">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                        Experience
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
-                                            </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseTwo" class="collapse " aria-labelledby="headingTwo" data-parent="#accordionExample_2">
-                                        <div class="card-body">
-                                            @if (Model.Experience == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.Experience</p>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion mt-2" id="accordionExample_3">
-                                <div class="card" id="headingThree">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                        Achievement
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
-                                            </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseThree" class="collapse " aria-labelledby="headingThree" data-parent="#accordionExample_3">
-                                        <div class="card-body">
-                                            @if (Model.Achievement == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.Achievement</p>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion mt-2" id="accordionExample_6">
-                                <div class="card" id="headingSix">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
-                                        Specialization
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
-                                            </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseSix" class="collapse show " aria-labelledby="headingSix" data-parent="#accordionExample_6">
-                                        <div class="card-body">
-                                            @if (Model.Specialization == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.Specialization</p>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion mt-2" id="accordionExample_5">
-                                <div class="card" id="headingFive">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-                                        Qualification
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
-                                            </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseFive" class="collapse show " aria-labelledby="headingFive" data-parent="#accordionExample_5">
-                                        <div class="card-body">
-                                            @if (Model.Qualification == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.Qualification</p>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion mt-2" id="accordionExample_4">
-                                <div class="card" id="headingFour">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                        LinkFaceBook
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
-                                            </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseFour" class="collapse show " aria-labelledby="headingFour" data-parent="#accordionExample_4">
-                                        <div class="card-body">
-                                            @if (Model.LinkFaceBook == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.LinkFaceBook</p>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion mt-2" id="accordionExample_4">
-                                <div class="card" id="headingFour">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                        LinkTiktok
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
-                                            </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseFour" class="collapse show " aria-labelledby="headingFour" data-parent="#accordionExample_4">
-                                        <div class="card-body">
-                                            @if (Model.LinkTiktok == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.LinkTiktok</p>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion mt-2" id="accordionExample_4">
-                                <div class="card" id="headingFour">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                        LinkYoutube
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
-                                            </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseFour" class="collapse show " aria-labelledby="headingFour" data-parent="#accordionExample_4">
-                                        <div class="card-body">
-                                            @if (Model.LinkYoutube == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.LinkYoutube</p>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <ul class="list-unstyled list-unstyled-py-3 text-dark mb-3">
+                            <li class="py-0">
+                                <small class="card-subtitle">Question : @ViewBag.totalQuestions</small>
+                            </li>
+                            <li class="py-0">
+                                <small class="card-subtitle">Answer : @ViewBag.totalAnswers</small>
+                            </li>
+                        </ul>
                     </div>
-                }
-                else if (Model.Access_rights == true)
-                {
+                </div>
+                <div class="js-sticky-block card mb-3 mb-lg-5">
+                    <div class="card-header">
+                        <h5 class="card-header-title">Basic Information</h5>
+                    </div>
                     <div class="card-body">
+                        <ul class="list-unstyled list-unstyled-py-3 text-dark mb-3">
+                            <li class="py-0 mb-2">
+                                <p>Email : @Model.Email</p>
+                            </li>
+                            <li class="py-0 mb-2">
+                                <p>Birth Day :@string.Format("{0:MM/dd/yyyy}", Model.BirthDay) </p>
+                            </li>
+                            <li class="py-0 mb-2">
+                                <p>Gender : @(Model.Gender==true?"Female":"Male")</p>
+                            </li>
+                            <li class="py-0 mb-2">
+                                <p>Location : @Model.Location</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-3 mb-lg-5">
+                    <div class="card-header">
+                        <h5 class="card-header-title">Profile Detail</h5>
+                        <div class="hs-unfold">
+                            @if (Model.AccountId == Int32.Parse(@User.Claims.Skip(4).FirstOrDefault().Value))
+                            {
+                                <div class="col-sm-auto">
+                                    <a class="btn btn-primary" asp-action="EditProfile" asp-route-id="@User.Claims.Skip(4).FirstOrDefault().Value">
+                                        <i class="tio-user mr-1"></i> Edit Profile
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    @if (Model.AccountId == Int32.Parse(@User.Claims.Skip(4).FirstOrDefault().Value))
+                    {
                         <div class="card-body">
-
-                            <div class="accordion" id="accordionExample">
-                                <div class="card" id="headingOne">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        About
-
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
+                            <div class="card-body">
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card" id="headingOne">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            About
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
                                             </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            @if (Model.About == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.About</p>
-                                            }
+                                        </a>
+                                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                @if (Model.About == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.About</p>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="accordion mt-2" id="accordionExample_2">
-                                <div class="card" id="headingTwo">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                        Experience
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
+                                <div class="accordion mt-2" id="accordionExample_2">
+                                    <div class="card" id="headingTwo">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                            Experience
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
                                             </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseTwo" class="collapse " aria-labelledby="headingTwo" data-parent="#accordionExample_2">
-                                        <div class="card-body">
-                                            @if (Model.Experience == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.Experience</p>
-                                            }
+                                        </a>
+                                        <div id="collapseTwo" class="collapse " aria-labelledby="headingTwo" data-parent="#accordionExample_2">
+                                            <div class="card-body">
+                                                @if (Model.Experience == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.Experience</p>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="accordion mt-2" id="accordionExample_3">
-                                <div class="card" id="headingThree">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                        Achievement
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
+                                <div class="accordion mt-2" id="accordionExample_3">
+                                    <div class="card" id="headingThree">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                            Achievement
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
                                             </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseThree" class="collapse " aria-labelledby="headingThree" data-parent="#accordionExample_3">
-                                        <div class="card-body">
-                                            @if (Model.Achievement == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.Achievement</p>
-                                            }
+                                        </a>
+                                        <div id="collapseThree" class="collapse " aria-labelledby="headingThree" data-parent="#accordionExample_3">
+                                            <div class="card-body">
+                                                @if (Model.Achievement == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.Achievement</p>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="accordion mt-2" id="accordionExample_6">
-                                <div class="card" id="headingSix">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
-                                        Specialization
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
+                                <div class="accordion mt-2" id="accordionExample_6">
+                                    <div class="card" id="headingSix">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
+                                            Specialization
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
                                             </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseSix" class="collapse show " aria-labelledby="headingSix" data-parent="#accordionExample_6">
-                                        <div class="card-body">
-                                            @if (Model.Specialization == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.Specialization</p>
-                                            }
+                                        </a>
+                                        <div id="collapseSix" class="collapse show " aria-labelledby="headingSix" data-parent="#accordionExample_6">
+                                            <div class="card-body">
+                                                @if (Model.Specialization == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.Specialization</p>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="accordion mt-2" id="accordionExample_5">
-                                <div class="card" id="headingFive">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-                                        Qualification
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
+                                <div class="accordion mt-2" id="accordionExample_5">
+                                    <div class="card" id="headingFive">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                            Qualification
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
                                             </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseFive" class="collapse show " aria-labelledby="headingFive" data-parent="#accordionExample_5">
-                                        <div class="card-body">
-                                            @if (Model.Qualification == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.Qualification</p>
-                                            }
+                                        </a>
+                                        <div id="collapseFive" class="collapse show " aria-labelledby="headingFive" data-parent="#accordionExample_5">
+                                            <div class="card-body">
+                                                @if (Model.Qualification == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.Qualification</p>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="accordion mt-2" id="accordionExample_4">
-                                <div class="card" id="headingFour">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                        LinkFaceBook
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
+                                <div class="accordion mt-2" id="accordionExample_4">
+                                    <div class="card" id="headingFour">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                            LinkFaceBook
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
                                             </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseFour" class="collapse show " aria-labelledby="headingFour" data-parent="#accordionExample_4">
-                                        <div class="card-body">
-                                            @if (Model.LinkFaceBook == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.LinkFaceBook</p>
-                                            }
+                                        </a>
+                                        <div id="collapseFour" class="collapse show " aria-labelledby="headingFour" data-parent="#accordionExample_4">
+                                            <div class="card-body">
+                                                @if (Model.LinkFaceBook == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.LinkFaceBook</p>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="accordion mt-2" id="accordionExample_4">
-                                <div class="card" id="headingFour">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                        LinkTiktok
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
+                                <div class="accordion mt-2" id="accordionExample_4">
+                                    <div class="card" id="headingFour">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                            LinkTiktok
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
                                             </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseFour" class="collapse show " aria-labelledby="headingFour" data-parent="#accordionExample_4">
-                                        <div class="card-body">
-                                            @if (Model.LinkTiktok == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.LinkTiktok</p>
-                                            }
+                                        </a>
+                                        <div id="collapseFour" class="collapse show " aria-labelledby="headingFour" data-parent="#accordionExample_4">
+                                            <div class="card-body">
+                                                @if (Model.LinkTiktok == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.LinkTiktok</p>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="accordion mt-2" id="accordionExample_4">
-                                <div class="card" id="headingFour">
-                                    <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                        LinkYoutube
-                                        <span class="card-btn-toggle">
-                                            <span class="card-btn-toggle-default">
-                                                <i class="tio-add"></i>
+                                <div class="accordion mt-2" id="accordionExample_4">
+                                    <div class="card" id="headingFour">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                            LinkYoutube
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
                                             </span>
-                                            <span class="card-btn-toggle-active">
-                                                <i class="tio-remove"></i>
-                                            </span>
-                                        </span>
-                                    </a>
-
-                                    <div id="collapseFour" class="collapse show " aria-labelledby="headingFour" data-parent="#accordionExample_4">
-                                        <div class="card-body">
-                                            @if (Model.LinkYoutube == null)
-                                            {
-                                                <p>...</p>
-                                            }
-                                            else
-                                            {
-                                                <p>@Model.LinkYoutube</p>
-                                            }
+                                        </a>
+                                        <div id="collapseFour" class="collapse show " aria-labelledby="headingFour" data-parent="#accordionExample_4">
+                                            <div class="card-body">
+                                                @if (Model.LinkYoutube == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.LinkYoutube</p>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="card-body" style="height: 6rem;">
+                    }
+                    else if (Model.Access_rights == true)
+                    {
                         <div class="card-body">
-                            <h4 style="text-align:center">This Account Is Private</h4>
-                        </div>
-                    </div>
-                }
-                <!-- End Body -->
+                            <div class="card-body">
 
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card" id="headingOne">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            About
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                @if (Model.About == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.About</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion mt-2" id="accordionExample_2">
+                                    <div class="card" id="headingTwo">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                            Experience
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <div id="collapseTwo" class="collapse " aria-labelledby="headingTwo" data-parent="#accordionExample_2">
+                                            <div class="card-body">
+                                                @if (Model.Experience == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.Experience</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion mt-2" id="accordionExample_3">
+                                    <div class="card" id="headingThree">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                            Achievement
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <div id="collapseThree" class="collapse " aria-labelledby="headingThree" data-parent="#accordionExample_3">
+                                            <div class="card-body">
+                                                @if (Model.Achievement == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.Achievement</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion mt-2" id="accordionExample_6">
+                                    <div class="card" id="headingSix">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
+                                            Specialization
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <div id="collapseSix" class="collapse show " aria-labelledby="headingSix" data-parent="#accordionExample_6">
+                                            <div class="card-body">
+                                                @if (Model.Specialization == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.Specialization</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion mt-2" id="accordionExample_5">
+                                    <div class="card" id="headingFive">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                            Qualification
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <div id="collapseFive" class="collapse show " aria-labelledby="headingFive" data-parent="#accordionExample_5">
+                                            <div class="card-body">
+                                                @if (Model.Qualification == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.Qualification</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion mt-2" id="accordionExample_4">
+                                    <div class="card" id="headingFour">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                            LinkFaceBook
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <div id="collapseFour" class="collapse show " aria-labelledby="headingFour" data-parent="#accordionExample_4">
+                                            <div class="card-body">
+                                                @if (Model.LinkFaceBook == null)
+                                                {
+                                                    <p>...</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.LinkFaceBook</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion mt-2" id="accordionExample_4">
+                                    <div class="card" id="headingFour">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                            LinkTiktok
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <div id="collapseFour" class="collapse show " aria-labelledby="headingFour" data-parent="#accordionExample_4">
+                                            <div class="card-body">
+                                                @if (Model.LinkTiktok == null)
+                                                {
+                                                    <p> Information has not been updated. </p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.LinkTiktok</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion mt-2" id="accordionExample_4">
+                                    <div class="card" id="headingFour">
+                                        <a class="card-header card-btn btn-block" style="color: #4ec386;font-weight:900" href="javascript:;" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                            LinkYoutube
+                                            <span class="card-btn-toggle">
+                                                <span class="card-btn-toggle-default">
+                                                    <i class="tio-add"></i>
+                                                </span>
+                                                <span class="card-btn-toggle-active">
+                                                    <i class="tio-remove"></i>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <div id="collapseFour" class="collapse show " aria-labelledby="headingFour" data-parent="#accordionExample_4">
+                                            <div class="card-body">
+                                                @if (Model.LinkYoutube == null)
+                                                {
+                                                    <p> Information has not been updated. </p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@Model.LinkYoutube</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card-body" style="height: 6rem;">
+                            <div class="card-body">
+                                <h4 style="text-align:center">This Account Is Private</h4>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>

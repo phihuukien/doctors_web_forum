@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using X.PagedList;
@@ -21,6 +19,8 @@ namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
         {
             _context = context;
         }
+
+        // list question
         [Route("")]
         public IActionResult Index(string title,int page = 1)
         {
@@ -35,6 +35,8 @@ namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
             }
             return View(questions);
         }
+
+        // lock question
         [Route("lock/{id}")]
         [Authorize]
         public async Task<IActionResult> QuestionLock(int id)
@@ -45,6 +47,8 @@ namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        // receive question
         [Route("pass/{id}")]
         [Authorize]
         public async Task<IActionResult> AccountUnLock(int id)

@@ -16,8 +16,20 @@
                 window.location.href = 'http://localhost:18039/question/' + data.id
             },
             error: function (msg) {
-                alert(msg);
+                if (null == $('#title').val()) {
+                    $('#error').text("Can not empty");
+                }
+                $('#error').text(msg.responseJSON.message);
             }
         });
     });
 });
+
+function checkTitle() {
+    if ($('#title').val().length > 8) {
+        document.getElementById("processEvent").disabled = false;
+    }
+    if ($('#title').val().length < 7) {
+        document.getElementById("processEvent").disabled = true;
+    }
+}

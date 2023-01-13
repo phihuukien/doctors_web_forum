@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,11 +19,15 @@ namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
         {
             _context = context;
         }
+
+        // Redirect admin login page
         [Route(""),Route("login")]
         public IActionResult Index()
         {
             return View("Login");
         }
+
+        // login authentication
         [Route("authentication")]
         [HttpPost]
         public async Task<IActionResult> Login(string Email, string Password)
@@ -52,8 +55,6 @@ namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
                 }, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-                    account.Status = 3;
                     _context.Accounts.Update(account);
                     await _context.SaveChangesAsync();
                     return Redirect("~/admin/home");
@@ -63,20 +64,34 @@ namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
                     if (account.Role.Equals("USER"))
                     {
                         TempData["error"] = "Your account is not correct";
-                        return Redirect("~/admin/login");
+                        return Redirect("/admin/login");
                     }
                     TempData["error"] = "Account has not been activated";
-                    return Redirect("~admin/login");
+                    return Redirect("/admin/login");
                 }
-
             }
             else
             {
                 TempData["email"] = Email;
                 TempData["password"] = Password;
                 TempData["error"] = "Email or Password Incorrect";
-                return Redirect("~admin/login");
+                return Redirect("/admin/login");
             }
+        }
+
+        // logout
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var id = @User.Claims.Skip(4).FirstOrDefault().Value;
+            var accountId = Int32.Parse(id);
+            var account = _context.Accounts.FirstOrDefault(x => x.AccountId == accountId);
+            account.Status = 1;
+            _context.Accounts.Update(account);
+            await _context.SaveChangesAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/admin/login");
+
         }
     }
 }

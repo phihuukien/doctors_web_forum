@@ -10,9 +10,9 @@
         display: block !important;
     }
 </style>
-<div id="modify">
-
-</div>
+<div class='alert alert-success alert-dismissible ' id='Notification' style='margin-right: 31px; position: absolute; z-index: 1;right: 0;top: 85px; display:none;'>
+    Success Inserts <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button> 
+    </div>
 <div class="row">
     <div class="col-md-7">
         <div class="card">
@@ -32,15 +32,18 @@
                                 <tr>
                                     <td style="position: relative;">
                                         @Html.DisplayFor(modelItem => item.TopicName)
-                                        @if(item.Status==true){
-                                          <span class="badge rounded-pill bg-success" style="font-size:9px; position: absolute;top:6px;">@(item.Status==true?"Show":"hide")</span>
-                                        }else{
-                                          <span class="badge rounded-pill bg-danger" style="font-size:9px; position: absolute;top:6px;">@(item.Status==true?"Show":"hide")</span>
+                                        @if (item.Status == true)
+                                        {
+                                            <span class="badge rounded-pill bg-success" style="font-size:9px; position: absolute;top:6px;">@(item.Status==true?"Show":"hide")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge rounded-pill bg-danger" style="font-size:9px; position: absolute;top:6px;">@(item.Status==true?"Show":"hide")</span>
                                         }
 
                                     </td>
                                     <td style=" cursor: pointer;">
-                                        <a onclick="Edit(@item.TopicId)">Edit</a> 
+                                        <a onclick="Edit(@item.TopicId)">Edit</a>
                                     </td>
                                 </tr>
                             }
@@ -94,8 +97,9 @@
                     processData: false,
                     contentType: false,
                     success: function (data) {
-                      
-                       Notification()
+                        window.location.reload();
+                        var element = document.getElementById("Notification");
+                        element.classList.add("display-edit");
                     },
                     error: function (msg) {
                         $('#error').text(msg.responseJSON.message);
@@ -115,7 +119,7 @@
                     contentType: false,
                     success: function (data) {
                         window.location.reload();
-                      
+
                     },
                     error: function (msg) {
                         $('#error').text(msg.responseJSON.message);
@@ -147,10 +151,6 @@
                     alert(msg.responseJSON.message);
                 }
             });
-        }
-        function Notification() {
-         
-            window.location.reload()
         }
         function Cancel() {
             window.location.reload();

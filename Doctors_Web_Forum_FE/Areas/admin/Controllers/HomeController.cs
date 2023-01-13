@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
 {
@@ -19,6 +17,8 @@ namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
         {
             _context = context;
         }
+
+        // system statistics
         [Route("")]
         [Authorize]
         public IActionResult Index()
