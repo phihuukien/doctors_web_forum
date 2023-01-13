@@ -3,18 +3,17 @@
     ViewData["Title"] = "Edit Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="content container-fluid">
     <div class="row justify-content-lg-center">
         <div class="col-lg-10">
-            <form asp-action="EditProfile" enctype="multipart/form-data" method="post">
+            <form asp-action="UpdateProfile" enctype="multipart/form-data" >
                 <div class="profile-cover">
                     <div class="profile-cover-img-wrapper">
                         <img class="profile-cover-img" src="assets\img\1920x400\img1.jpg" alt="Image Description">
                     </div>
                 </div>
                 <label class="avatar avatar-xxl avatar-circle avatar-border-lg avatar-uploader profile-cover-avatar" for="avatarUploader">
-                    <img id="avatarImg" class="avatar-img" src="@Model.Avatar" alt="Image Description">
+                    <img id="avatarImg" class="avatar-img" src="@Model.Avatar" alt="Image Description" style="width:100%;">
                     <input type="file" asp-for="@Model.Avatar" class="js-file-attach avatar-uploader-input" id="avatarUploader" data-hs-file-attach-options="{
                           &quot;textTarget&quot;: &quot;#avatarImg&quot;,
                           &quot;mode&quot;: &quot;image&quot;,
@@ -178,7 +177,6 @@
                                }
                              }">
                                 <span style="color: red; margin-top: 24px; }">@TempData["error2"]</span>
-
                             </div>
                         </div>
                         <div class="row form-group">
@@ -188,11 +186,8 @@
                                     <input type="password" class="form-control" name="Check_Password" id="confirmNewPasswordLabel" placeholder="Confirm your new password" aria-label="Confirm your new password">
                                     <span style="color: red; margin-top: 24px; }">@TempData["error3"]</span>
                                 </div>
-
                                 <h5>Password requirements:</h5>
-
                                 <p class="font-size-sm mb-2">Ensure that these requirements are met:</p>
-
                                 <ul class="font-size-sm">
                                     <li>Minimum 8 characters long - the more, the better</li>
                                     <li>At least one lowercase character</li>
@@ -220,5 +215,4 @@
 
         });
     </script>
-
 }

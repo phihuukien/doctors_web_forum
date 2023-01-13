@@ -18,51 +18,46 @@
                 }
             </div>
             <div class="col-auto">
-                <a class="btn btn-primary" data-toggle="modal" data-target="#addEventToCalendarModal">Ask Question</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-primary" data-toggle="modal" data-target="#addEventToCalendarModal">Ask Question</a>
+                }
+                else
+                {
+                    <a href="/login" class="btn btn-primary">Ask Question</a>
+                }
             </div>
         </div>
-
-
     </div>
 </div>
-
-
 @foreach (var item in Model)
 {
     <div class="container mb-5">
         <div class="card p-3" style="box-shadow: 5px 6px 6px 2px #e9ecef; overflow:auto;">
             <div class=" d-flex questions">
                 <div class="pt-2 mr-3  text-answer " style=" width:19%; text-align: end; ">
-
                     <div>
                         <span>@item.TotalQuestion</span>
                         <span>answers</span>
                     </div>
-
                 </div>
-                <div class="">
+                <div style="width:100%;">
                     <h3>
                         <a href="question/@item.QuestionId" style="color: #0074cc;text-decoration: none;">
                             @item.Title
                         </a>
                     </h3>
                     <div>
-                        I am new to VBA and am trying to create a code that uses the formula which references a sheet.
-                        However,
-                        the sheet name changes every month. What functions should I be using to reference the sheet?
-                        I ...
                     </div>
                     <div class="d-flex mt-1" style=" justify-content: space-between; flex-wrap: wrap; column-gap: 6px; row-gap: 8px;">
                         <div>
-
                             <ul class="d-flex pl-0 s-user-card--awards">
                                 <li><a class="badge badge-soft-info p-2" href="#">@item.Topic.TopicName</a></li>
-
                             </ul>
                         </div>
                         <div class="d-flex">
                             <div>
-                                <a href="/users/20883704/shura">
+                                <a  href="users/profile/@item.Account.AccountId">
                                     <div>
                                         <img src="@item.Account.Avatar"
                                              alt="Shura's user avatar" width="16" ,="" height="16"
@@ -72,7 +67,7 @@
                             </div>
                             <div class="d-flex mr-2">
                                 <div>
-                                    <a href="#">@item.Account.DisplayName</a>
+                                    <a href="users/profile/@item.Account.AccountId">@item.Account.DisplayName</a>
                                 </div>
                             </div>
                             <time class="s-user-card--time">
@@ -81,11 +76,9 @@
                                 </span>
                             </time>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 }
@@ -94,15 +87,14 @@
     justify-content: space-between;">
     <div> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
 
-    @Html.PagedListPager(Model, page => Url.Action("Question",
-        new { page, title = @ViewBag.titleSearch }),
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page }),
 
         new PagedListRenderOptions
         {
             LiElementClasses = new string[] { "page-item" },
             PageClasses = new string[] { "page-link" }
         })
-
 </div>
 
 

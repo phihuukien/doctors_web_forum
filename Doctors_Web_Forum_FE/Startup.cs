@@ -58,6 +58,7 @@ namespace Doctors_Web_Forum_FE
             {
                 option.Cookie.Name = "isAction";
                 option.Cookie.Name = "registed";
+                option.Cookie.Name = "img";
             });
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));

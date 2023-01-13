@@ -2,8 +2,6 @@
 using Doctors_Web_Forum_FE.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +17,8 @@ namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
         {
             _context = context;
         }
+
+        // list topics 
         [Route("")]
         public IActionResult Index()
         {
@@ -26,6 +26,7 @@ namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
             return View(topics);
         }
 
+        // Insert topic
         [Route("insert")]
         public async Task<IActionResult> Insert([FromForm] Topic topicForm)
         {
@@ -43,6 +44,8 @@ namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
             await _context.SaveChangesAsync();
             return Ok(new { message="Success Insert"});
         }
+
+        // edit  topic = {id}
         [Route("edit/{id}")]
         public IActionResult Edit(int id)
         {
@@ -50,6 +53,8 @@ namespace Doctors_Web_Forum_FE.Areas.admin.Controllers
 
             return Ok(topic);
         }
+
+        // update  topic = {id}
         [Route("update")]
         public async Task<IActionResult> Update([FromForm ] Topic topic)
         {

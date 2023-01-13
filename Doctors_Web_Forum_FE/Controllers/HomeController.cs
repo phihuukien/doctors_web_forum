@@ -1,13 +1,9 @@
-﻿
-using Doctors_Web_Forum_FE.BusinessModels;
+﻿using Doctors_Web_Forum_FE.BusinessModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using X.PagedList;
 
 namespace Doctors_Web_Forum_FE.Controllers

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Doctors_Web_Forum_FE.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace Doctors_Web_Forum_FE.Controllers
 {
@@ -24,6 +25,7 @@ namespace Doctors_Web_Forum_FE.Controllers
             this.mailService = mailService;
         }
 
+        //Redirect login page
         [Route("", Name = "LogIn")]
         public IActionResult Login(string urlRedirect)
         {
@@ -36,17 +38,21 @@ namespace Doctors_Web_Forum_FE.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginAuthen(string Email, string Password, string UrlRedirect)
         {
+            // check null
             if (null == Email || null == Password)
             {
                 TempData["error"] = "UserName or Password Empty";
                 return Redirect("~/login");
             }
             var md5pass = Utility.MD5Hash(Password);
+            // check account exist in database
             var account = _context.Accounts.FirstOrDefault(x => x.Email == Email && x.Password == md5pass);
             if (account != null)
             {
-                if (account.Status == 1 || account.Status == 3)
+                // check account status (1<=>activated , 2 <=> not activated , 3 <=> activated and is active , 4 <=> lock) 
+                if ((account.Status == 1 || account.Status == 3) && account.Role.Equals("USER"))
                 {
+                    // add imformation to cookie
                     string id = account.AccountId.ToString();
                     var identity = new ClaimsIdentity(new[]  {
                       new Claim(ClaimTypes.Email ,account.Email),
@@ -59,12 +65,23 @@ namespace Doctors_Web_Forum_FE.Controllers
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                     UrlRedirect = string.IsNullOrEmpty(UrlRedirect) ? "/" : UrlRedirect;
                     account.Status = 3;
+                    HttpContext.Session.SetString("img", account.Avatar);
                     _context.Accounts.Update(account);
                     await _context.SaveChangesAsync();
                     return Redirect("~" + UrlRedirect);
                 }
                 else
                 {
+                    if (account.Role.Equals("ADMIN"))
+                    {
+                        TempData["error"] = "Email or Password Incorrect";
+                        return Redirect("~/login");
+                    }
+                    if (account.Status ==4 )
+                    {
+                        TempData["error"] = "Account has not been lock";
+                        return Redirect("~/login");
+                    }
                     TempData["error"] = "Account has not been activated";
                     return Redirect("~/login");
                 }
@@ -77,15 +94,12 @@ namespace Doctors_Web_Forum_FE.Controllers
                 return Redirect("~/login");
             }
 
-
-
-
         }
       
         //Register and Send Email
         [HttpPost]
         [Route("postRegister")]
-        public async Task<IActionResult> PostRegister(string check_password, [Bind("DisplayName,Email,Password")] Account account)
+        public async Task<IActionResult> PostRegister(string check_password, Account account)
         {
             ViewBag.panelActive = "right-panel-active";
             //check validate entity framework model
@@ -128,16 +142,18 @@ namespace Doctors_Web_Forum_FE.Controllers
             }
             return View("Login", account);
         }
-
+        // logout
         [Route("logout", Name = "LogOut")]
         public async Task<IActionResult> Logout()
         {
+            // update status
             var id = @User.Claims.Skip(4).FirstOrDefault().Value;
             var accountId = Int32.Parse(id);
             var account = _context.Accounts.FirstOrDefault(x => x.AccountId == accountId);
             account.Status = 1;
             _context.Accounts.Update(account);
             await _context.SaveChangesAsync();
+            // delete cookie
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("~/");
 

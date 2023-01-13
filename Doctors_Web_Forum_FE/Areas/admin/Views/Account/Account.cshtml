@@ -12,7 +12,7 @@
     <form action="admin/accounts" method="get">
         <div class="input-group card-body pb-0" style=" width: 37%;">
 
-            <input type="text" class="form-control" name="email" placeholder="Search..." value="@ViewBag.emailSearch">
+            <input type="text" class="form-control" name="email" placeholder="Search Email..." value="@ViewBag.emailSearch">
             <button class="btn btn-outline-primary" type="submit" id="button-addon2">Search</button>
 
         </div>
@@ -55,12 +55,30 @@
                                     @item.BirthDay
                                 }
                             </td>
-                            <td><span class="badge bg-label-primary me-1">Active</span></td>
+                            <td>
+                                @if (@item.Status == 1)
+                                {
+                                    <span class="badge bg-label-primary me-1">Active</span>
+                                }
+                                @if (@item.Status == 2)
+                                {
+                                  <span class="badge bg-label-warning me-1">not activated yet</span>
+                                }
+                                @if (@item.Status == 3)
+                                {
+                                    <span class="badge bg-label-success me-1">is active</span>
+                                }
+                                @if (@item.Status == 4)
+                                {
+                                    <span class="badge bg-label-danger me-1">Lock</span>
+                                }
+
+                            </td>
                             <td>  <span>@String.Format("{0:MM/dd/yyyy}", @item.CreateDate)</span></td>
                             <td>
                                 <div class="dropdown">
 
-                                    <a href="admin/accounts/delete/@item.AccountId" onclick="return confirm('Are you sure you want to delete this item?');"><button type="button" class="btn btn-sm btn-danger"><i class="bx bx-trash me-1"></i> Delete</button></a>
+                                    <a href="admin/accounts/delete/@item.AccountId" onclick="return confirm('Are you sure you want to delete this user? (Note: Questions and answers of the this user  will be removed from the system)');"><button type="button" class="btn btn-sm btn-danger"><i class="bx bx-trash me-1"></i> Delete</button></a>
                                     @if (@item.Status == 4)
                                     {
                                         <a href="admin/accounts/unlock/@item.AccountId"><button type="button" class="btn btn-sm btn-danger"><i class="bx bx-lock me-1"></i> Unlock</button></a>

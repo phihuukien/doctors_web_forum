@@ -92,7 +92,7 @@
                         </div>
                         <p class="mb-2">Welcome to health talk management page! 👋</p>
                         <p class="mb-4">Please sign-in to your account to get started</p>
-
+                        <small style="color:red;">@TempData["error"]</small>
                         <form id="formAuthentication" class="mb-3" action="/admin/authentication" method="POST">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email </label>
@@ -113,7 +113,7 @@
                                            class="form-control"
                                            name="Password"
                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                           aria-describedby="password" value="@TempData["password"]"/>
+                                           aria-describedby="password" value="@TempData["password"]" />
                                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                 </div>
                             </div>

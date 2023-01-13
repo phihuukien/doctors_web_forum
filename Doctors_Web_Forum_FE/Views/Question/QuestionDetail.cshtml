@@ -9,6 +9,7 @@
     .editorReply {
         min-height: 100px;
     }
+
     .mystyle {
         display: block !important;
     }
@@ -18,10 +19,10 @@
         <div class="row " style="align-items:baseline;">
             <div class="col d-flex">
                 <div>
-                    <img style="width:40px; border-radius:100px;" src="  @question.Account.Avatar" alt="Logo">
+                    <a href="users/profile/@question.Account.AccountId"><img style="width:40px; border-radius:100px;" src="  @question.Account.Avatar" alt="Logo"></a>
                 </div>
                 <div class="d-flex ml-3" style="flex-direction:column;">
-                    <span style="color: black; font-weight: 900; font-family: system-ui;"> @question.Account.DisplayName</span>
+                    <a href="users/profile/@question.Account.AccountId"> <span style="color: black; font-weight: 900; font-family: system-ui;"> @question.Account.DisplayName</span> </a>
                     @if (ViewBag.selecTime != "No")
                     {
                         <span>@ViewBag.selecTime</span>
@@ -57,21 +58,28 @@
             <div class=" row border-top">
                 <div class="d-flex  col-md-12">
                     <div class="pt-3">
-                        <img style="width:40px; border-radius:100px;" src="@Html.DisplayFor(modelItem => item.Account.Avatar)" alt="Logo">
+                        <a href="users/profile/@item.Account.AccountId">  <img style="width:40px; border-radius:100px;" src="@Html.DisplayFor(modelItem => item.Account.Avatar)" alt="Logo"></a>
                     </div>
                     <div class="coment-bottom bg-white p-1 px-2" style="width:100%;">
                         <div class="commented-section mt-2">
                             <div class="shadow-lg p-3 bg-white  " style="border-radius:20px;width:fit-content;">
                                 <div class="d-flex flex-row align-items-center commented-user">
-                                    <h5 class="mr-2" style="font-weight: 700; font-family: sans-serif;">@Html.DisplayFor(modelItem => item.Account.DisplayName)</h5>
+                                    <a href="users/profile/@item.Account.AccountId"><h5 class="mr-2" style="font-weight: 700; font-family: sans-serif;">@Html.DisplayFor(modelItem => item.Account.DisplayName)</h5></a>
                                 </div>
                                 <div class="comment-text-sm">
-                                        @Html.Raw(item.Content)
+                                    @Html.Raw(item.Content)
                                 </div>
                             </div>
                             <div class="reply-section">
                                 <div class="d-flex flex-row align-items-center voting-icons">
-                                    <h6 class="ml-2 mt-1 " style="cursor: pointer;"  onclick="reply('reply-@item.CommentId','@item.Account.DisplayName','@item.CommentId');">Reply</h6>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <h6 class="ml-2 mt-1 " style="cursor: pointer;" onclick="reply('reply-@item.CommentId','@item.Account.DisplayName','@item.CommentId');">Reply</h6>
+                                    }
+                                    else
+                                    {
+                                        <a href="/login"><h6 class="ml-2 mt-1 " style="cursor: pointer;">Reply</h6></a>
+                                    }
                                     <span class="mb-1 ml-4">
                                         Answered @item.CreateDate
                                     </span>
@@ -85,13 +93,13 @@
                                 <div class=" row ">
                                     <div class="d-flex  col-md-12">
                                         <div class="pt-3">
-                                            <img style="width:30px; border-radius:100px;" src="@Html.DisplayFor(modelItem => item_2.Account.Avatar)" alt="Logo">
+                                            <a href="users/profile/@item_2.Account.AccountId">  <img style="width:30px; border-radius:100px;" src="@Html.DisplayFor(modelItem => item_2.Account.Avatar)" alt="Logo"></a>
                                         </div>
                                         <div class="coment-bottom bg-white p-1 px-2">
                                             <div class="commented-section mt-2">
                                                 <div class="shadow-lg p-3 bg-white  " style="border-radius:20px;">
                                                     <div class="d-flex flex-row align-items-center commented-user">
-                                                        <h5 class="mr-2">@Html.DisplayFor(modelItem => item_2.Account.DisplayName)</h5>
+                                                        <a href="users/profile/@item_2.Account.AccountId">   <h5 class="mr-2">@Html.DisplayFor(modelItem => item_2.Account.DisplayName)</h5></a>
                                                     </div>
                                                     <div class="comment-text-sm">
                                                         <p style="color:black">
@@ -114,14 +122,18 @@
                                 </div>
                             }
                         }
-                        <div class="row mb-2 " id="reply-@item.CommentId" style="display:none;" >
-                            <div class="d-flex" style="justify-content:space-between;">
-                                <div class="pl-2">  <img style="width:30px; border-radius:100px;" src="@User.Claims.Skip(3).FirstOrDefault().Value" alt="Logo"></div>
-                                <textarea  class="form-control" style="border-radius:10px; width:88%; text-align:left;" id="content-comment-@item.CommentId">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                    <div class="row mb-2 " id="reply-@item.CommentId" style="display:none;">
+                        <div class="d-flex" style="justify-content:space-between;">
+                            <div class="pl-2">  <img style="width:30px; border-radius:100px;" src="@User.Claims.Skip(3).FirstOrDefault().Value" alt="Logo"></div>
+                            <textarea class="form-control" style="border-radius:10px; width:88%; text-align:left;" id="content-comment-@item.CommentId">
                                     </textarea>
-                                <div style="color: #529ab6; padding: 15px 15px 0 0; font-size: 26px;"><i class="fas fa-paper-plane" onclick="postReply('@question.QuestionId', '@item.CommentId')"></i></div>
-                            </div>
+                            <div style="color: #529ab6; padding: 15px 15px 0 0; font-size: 26px;"><i class="fas fa-paper-plane" onclick="postReply('@question.QuestionId', '@item.CommentId')"></i></div>
                         </div>
+                        <small style="color:red;" id="replyError"></small>
+                    </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -131,8 +143,17 @@
 <div class="container">
     <div style=" border-top: 1px solid #7b747c61; "> <h3 class="mt-3" id="">Your Answer</h3> </div>
     <textarea id="editorAnswer" name="editorAnswer"></textarea>
+    <small style="color:red;" id="commentError"></small>
     <div class=" mt-4">
-        <a class="btn btn-primary" onclick="postComment('@question.QuestionId')">Post Your Answer</a>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a class="btn btn-primary" id="comment" onclick="postComment('@question.QuestionId')">Post Your Answer</a>
+
+        }
+        else
+        {
+            <a class="btn btn-primary" href="/login">Post Your Answer</a>
+        }
     </div>
 </div>
 @section Scripts{
@@ -149,43 +170,60 @@
         // reply the answer
         function postReply(questionId, commentId) {
             var content = $('#content-comment-' + commentId).val();
-            var formData = new FormData();
-            formData.append("questionId", questionId);
-            formData.append("reply", commentId);
-            formData.append("Content",content);
-            $.ajax({
-                url: "http://localhost:18039/question/post-Comment",
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    window.location.reload();
-                },
-                error: function (msg) {
-                    alert(msg);
-                }
-            });
+            if (content.length == 0) {
+                $('#replyError').text("can not empty");
+            } else if (content.length < 8) {
+                $('#replyError').text("Body must be at least 8 characters;");
+            } else {
+                var formData = new FormData();
+                formData.append("questionId", questionId);
+                formData.append("reply", commentId);
+                formData.append("Content", content);
+                $.ajax({
+                    url: "http://localhost:18039/question/post-Comment",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            }
+
         }
         // answer the question
         function postComment(id) {
-            var formData = new FormData();
-            formData.append("questionId", id);
-            formData.append("reply", 0);
-            formData.append("Content", editorAnswer.getData());
-            $.ajax({
-                url: "http://localhost:18039/question/post-Comment",
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    window.location.reload();
-                },
-                error: function (msg) {
-                    alert(msg);
-                }
-            });
+            var answer = editorAnswer.getData();
+            if (answer.length == 0) {
+
+                $('#commentError').text("can not empty");
+
+
+            } else if (answer.length < 8) {
+                $('#commentError').text("Body must be at least 8 characters;");
+            } else {
+                var formData = new FormData();
+                formData.append("questionId", id);
+                formData.append("reply", 0);
+                formData.append("Content", answer);
+                $.ajax({
+                    url: "http://localhost:18039/question/post-Comment",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            }
         }
     </script>
 }
